@@ -7,8 +7,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
@@ -18,7 +16,6 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 
 public class ScreenShotDialog extends JDialog {
   ScreenShotDialog t;
@@ -30,6 +27,7 @@ public class ScreenShotDialog extends JDialog {
       t =
           new ScreenShotDialog(null) {
             private static final long serialVersionUID = 1L;
+
             protected void capture() {
               super.capture();
             }
@@ -75,8 +73,8 @@ public class ScreenShotDialog extends JDialog {
     int width = Math.abs(endx - orgx) + 1;
     int height = Math.abs(endy - orgy) + 1;
     imageOut = imageSrc.getSubimage(x, y, width, height);
-    startX=x;
-    startY=y;
+    startX = x;
+    startY = y;
     g.drawImage(imageTmp, 0, 0, this);
     g.setColor(Color.BLUE);
     g.drawRect(x - 1, y - 1, width + 1, height + 1);
@@ -133,17 +131,17 @@ public class ScreenShotDialog extends JDialog {
 
     this.setUndecorated(true);
     this.setResizable(false);
-    this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);   
-   this.setLocation(0, 0);
-   this.setSize(screenSize);
+    this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    this.setLocation(0, 0);
+    this.setSize(screenSize);
     this.setVisible(true);
   }
 
   protected void close() {
     this.dispose();
     BoardSyncTool.screenImage = imageOut;
-    BoardSyncTool.screenImageStartX=startX;
-    BoardSyncTool.screenImageStartY=startY;
+    BoardSyncTool.screenImageStartX = startX;
+    BoardSyncTool.screenImageStartY = startY;
     BoardSyncTool.isGettingScreen = false;
   }
 

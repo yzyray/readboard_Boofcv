@@ -301,7 +301,7 @@ public class LineDetection {
         lines.remove(s);
         s--;
       }
-      else if (lines.get(s).lengthSum<size/20)
+      else if (lines.get(s).lengthSum<size/30)
       {  lines.remove(s);
       s--;
       }
