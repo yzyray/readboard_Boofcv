@@ -10,13 +10,13 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class BoardSyncTool {
   public static ResourceBundle resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings");
-  private static boolean isChinese = true;//处理参数传入
-  private static boolean useJavaLooks = false;//处理参数传入
-  private static int fontSize = 12;//处理参数传入
-  
-  private static int boardWidth=19;//处理参数传入或者配置读取
-  private static int boardHeight=19;
-  
+  private static boolean isChinese = true; // 处理参数传入
+  private static boolean useJavaLooks = false; // 处理参数传入
+  private static int fontSize = 12; // 处理参数传入
+
+  private static int boardWidth = 19; // 处理参数传入或者配置读取
+  private static int boardHeight = 19;
+
   public static boolean isGettingScreen = false;
   public static BufferedImage screenImage;
   public static int screenImageStartX;

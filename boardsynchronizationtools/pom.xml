@@ -118,7 +118,12 @@
 <!-- https://mvnrepository.com/artifact/org.boofcv/boofcv-all -->
 		<dependency>
     		<groupId>org.boofcv</groupId>
-   			 <artifactId>boofcv-all</artifactId>
+   			 <artifactId>boofcv-core</artifactId>
+   			 <version>0.37</version>
+		</dependency> 
+			<dependency>
+    		<groupId>org.boofcv</groupId>
+   			 <artifactId>boofcv-swing</artifactId>
    			 <version>0.37</version>
 		</dependency> 
 	</dependencies>

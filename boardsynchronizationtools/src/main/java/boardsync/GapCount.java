@@ -1,6 +1,6 @@
 package boardsync;
 
 public class GapCount {
-public float gap;
-public int counts;
+  public float gap;
+  public int counts;
 }
