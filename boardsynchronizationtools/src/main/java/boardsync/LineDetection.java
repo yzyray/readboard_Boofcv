@@ -461,10 +461,10 @@ public class LineDetection {
     reCalculateInterval(horizonLineIntervals, verticalLines, hGap);
     reCalculateInterval(verticalLineIntervals, horizonLines, vGap);
 
-    int x0 = Math.round(verticalLineIntervals.get(0).minPos);
-    int x1 = Math.round(verticalLineIntervals.get(0).maxPos);
-    int y0 = Math.round(horizonLineIntervals.get(0).minPos);
-    int y1 = Math.round(horizonLineIntervals.get(0).maxPos);
+    int x0 = Math.round(verticalLineIntervals.get(0).minPos - (hGap + 1) / 2);
+    int x1 = Math.round(verticalLineIntervals.get(0).maxPos + (hGap + 1) / 2);
+    int y0 = Math.round(horizonLineIntervals.get(0).minPos - (vGap + 1) / 2);
+    int y1 = Math.round(horizonLineIntervals.get(0).maxPos + (vGap + 1) / 2);
     if (showDebugImages) {
       BufferedImage boardImage =
           new BufferedImage(input.getWidth(), input.getHeight(), TYPE_INT_ARGB);
@@ -481,6 +481,8 @@ public class LineDetection {
     position.y = BoardSyncTool.screenImageStartY + y0;
     position.width = x1 - x0;
     position.height = y1 - y0;
+    position.hGap = hGap;
+    position.vGap = vGap;
     return position;
   }
 }
