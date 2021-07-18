@@ -269,28 +269,29 @@ public class LineDetection {
             return 0;
           }
         });
-
-    for (int s = 0; s < lines.size() / 2; s++) {
-      VerticalHorizonLines line1 = lines.get(s);
-      VerticalHorizonLines line2 = lines.get(s + 1);
-      if (Math.abs(line1.position - line2.position) <= 4) {
-        line2.position = line1.lengthSum > line2.lengthSum ? line1.position : line2.position;
-        line2.lengthSum = line2.lengthSum + line1.lengthSum;
-        line2.start = Math.min(line1.start, line2.start);
-        line2.end = Math.max(line1.end, line2.end);
-        line1.needDelete = true;
+    if (lines.size() >= 2) {
+      for (int s = 0; s < lines.size() / 2; s++) {
+        VerticalHorizonLines line1 = lines.get(s);
+        VerticalHorizonLines line2 = lines.get(s + 1);
+        if (Math.abs(line1.position - line2.position) <= 4) {
+          line2.position = line1.lengthSum > line2.lengthSum ? line1.position : line2.position;
+          line2.lengthSum = line2.lengthSum + line1.lengthSum;
+          line2.start = Math.min(line1.start, line2.start);
+          line2.end = Math.max(line1.end, line2.end);
+          line1.needDelete = true;
+        }
       }
-    }
-    for (int s = lines.size(); s > lines.size() / 2; s--) {
-      VerticalHorizonLines line1 = lines.get(s - 1);
-      VerticalHorizonLines line2 = lines.get(s - 2);
-      if (line2.needDelete) continue;
-      if (Math.abs(line1.position - line2.position) <= 4) {
-        line2.position = line1.lengthSum > line2.lengthSum ? line1.position : line2.position;
-        line2.lengthSum = line2.lengthSum + line1.lengthSum;
-        line2.start = Math.min(line1.start, line2.start);
-        line2.end = Math.max(line1.end, line2.end);
-        line1.needDelete = true;
+      for (int s = lines.size(); s > lines.size() / 2; s--) {
+        VerticalHorizonLines line1 = lines.get(s - 1);
+        VerticalHorizonLines line2 = lines.get(s - 2);
+        if (line2.needDelete) continue;
+        if (Math.abs(line1.position - line2.position) <= 4) {
+          line2.position = line1.lengthSum > line2.lengthSum ? line1.position : line2.position;
+          line2.lengthSum = line2.lengthSum + line1.lengthSum;
+          line2.start = Math.min(line1.start, line2.start);
+          line2.end = Math.max(line1.end, line2.end);
+          line1.needDelete = true;
+        }
       }
     }
     for (int s = 0; s < lines.size(); s++) {
