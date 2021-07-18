@@ -23,7 +23,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class LineDetection {
-  private boolean showDebugImages = true;
+  private boolean showDebugImages = false;
   private int size;
   // adjusts edge threshold for identifying pixels belonging to a line
   //  private static final float edgeThreshold = 25;
@@ -137,7 +137,7 @@ public class LineDetection {
     List<LineSegment2D_F32> found = detector.detect(input);
 
     if (showDebugImages) {
-      System.out.println("Found lines: " + found.size());
+      System.out.println("Lines: " + found.size());
       // display the results
       ImageLinePanel gui = new ImageLinePanel();
       gui.setImage(image);

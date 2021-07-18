@@ -7,20 +7,26 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.FontUIResource;
 
 public class BoardSyncTool {
   public static ResourceBundle resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings");
   private static boolean isChinese = true; // 处理参数传入
   private static boolean useJavaLooks = false; // 处理参数传入
-  private static int fontSize = 12; // 处理参数传入
+  private static int fontSize = 15; // 处理参数传入
 
   public static int boardWidth = 19; // 处理参数传入或者配置读取
   public static int boardHeight = 19;
+  public static int blackOffset = 96;
+  public static int whiteOffset = 96;
+  public static int blackPercent = 33;
+  public static int whitePercent = 33;
 
   public static boolean isGettingScreen = false;
   public static BufferedImage screenImage;
   public static int screenImageStartX;
   public static int screenImageStartY;
+  public static BoardPosition boardPosition = null;
 
   public static void main(String[] args) {
     if (isChinese)
@@ -43,6 +49,10 @@ public class BoardSyncTool {
   public static void setLookAndFeel() {
     try {
       setUIFont(new javax.swing.plaf.FontUIResource("", Font.PLAIN, fontSize));
+      UIManager.put(
+          "OptionPane.buttonFont", new FontUIResource(new Font("", Font.PLAIN, fontSize)));
+      UIManager.put(
+          "OptionPane.messageFont", new FontUIResource(new Font("", Font.PLAIN, fontSize)));
       if (useJavaLooks) {
         String lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
 
