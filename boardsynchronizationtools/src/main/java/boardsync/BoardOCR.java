@@ -22,7 +22,7 @@ public class BoardOCR {
 
   private void recognizeBoard(BufferedImage input) {
     float hGap = input.getHeight() / (float) BoardSyncTool.boardHeight;
-    float vGap = input.getHeight() / (float) BoardSyncTool.boardWidth;
+    float vGap = input.getWidth() / (float) BoardSyncTool.boardWidth;
     int hGapInt = Math.round(hGap);
     int vGapInt = Math.round(vGap);
     String result = "";
@@ -66,6 +66,8 @@ public class BoardOCR {
   private int getColorPercent(
       BufferedImage input, int startX, int startY, int width, int height, boolean isBlack) {
     int sum = 0;
+    if (startX + width > input.getWidth()) startX = input.getWidth() - width;
+    if (startY + height > input.getHeight()) startY = input.getHeight() - height;
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         int rgb[] = getRGB(input, startX + x, startY + y);
@@ -92,13 +94,11 @@ public class BoardOCR {
 
   private int[] getRGB(BufferedImage image, int x, int y) {
     int[] rgb = null;
-
     rgb = new int[3];
     int pixel = image.getRGB(x, y);
     rgb[0] = (pixel & 0xff0000) >> 16;
     rgb[1] = (pixel & 0xff00) >> 8;
     rgb[2] = (pixel & 0xff);
-
     return rgb;
   }
 }
