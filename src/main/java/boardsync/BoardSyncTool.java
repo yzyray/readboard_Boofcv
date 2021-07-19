@@ -2,7 +2,9 @@ package boardsync;
 
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -39,6 +41,26 @@ public class BoardSyncTool {
     }
     ToolFrame toolFrame = new ToolFrame();
     toolFrame.setVisible(true);
+
+    startGetInputStreamThread();
+  }
+
+  private static void startGetInputStreamThread() {
+    // TODO Auto-generated method stub
+    BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+    new Thread() {
+      public void run() {
+        try {
+          String line = "";
+          while ((line = inputReader.readLine()) != null) {
+            System.out.println(line);
+          }
+        } catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
+      }
+    }.start();
   }
 
   public static void setUIFont(javax.swing.plaf.FontUIResource f) {
