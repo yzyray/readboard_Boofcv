@@ -482,8 +482,8 @@ public class LineDetection {
     position.y = BoardSyncTool.screenImageStartY + y0;
     position.width = x1 - x0;
     position.height = y1 - y0;
-    position.hGap = hGap;
-    position.vGap = vGap;
+    // position.hGap = hGap;
+    // position.vGap = vGap;
     return position;
   }
 }

@@ -16,7 +16,7 @@ public class BoardSyncTool {
   public static ResourceBundle resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings");
   private static boolean isChinese = true; // 处理参数传入
   private static boolean useJavaLooks = false; // 处理参数传入
-  private static int fontSize = 15; // 处理参数传入
+  private static int fontSize = 12; // 处理参数传入
 
   public static int boardWidth = 19; // 处理参数传入或者配置读取
   public static int boardHeight = 19;
@@ -27,6 +27,7 @@ public class BoardSyncTool {
   public static int screenImageStartY;
   public static BoardPosition boardPosition = null;
   public static Config config;
+  public static ToolFrame toolFrame;
 
   public static void main(String[] args) {
     if (isChinese)
@@ -39,7 +40,7 @@ public class BoardSyncTool {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
-    ToolFrame toolFrame = new ToolFrame();
+    toolFrame = new ToolFrame();
     toolFrame.setVisible(true);
 
     startGetInputStreamThread();

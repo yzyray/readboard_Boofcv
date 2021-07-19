@@ -8,9 +8,13 @@ import java.awt.image.BufferedImage;
 public class BoardOCR {
 
   public void oneTimeSync() throws AWTException {
+    if (BoardSyncTool.boardPosition == null) {
+      Utils.showMssage(BoardSyncTool.toolFrame, "未选择棋盘", "消息提醒");
+      return;
+    }
     BoardPosition position = BoardSyncTool.boardPosition;
     BufferedImage input = getScreenImage(position.x, position.y, position.width, position.height);
-    Send("start " + BoardSyncTool.boardWidth + " " + BoardSyncTool.boardHeight + " ");
+    Utils.send("start " + BoardSyncTool.boardWidth + " " + BoardSyncTool.boardHeight + " ");
     recognizeBoard(input);
   }
 
@@ -51,16 +55,12 @@ public class BoardOCR {
         }
         if (j == (BoardSyncTool.boardWidth - 1)) {
           result = result.substring(0, result.length() - 1);
-          Send("re=" + result);
+          Utils.send("re=" + result);
           result = "";
         }
       }
     }
-    Send("end");
-  }
-
-  private void Send(String message) {
-    System.out.println(message);
+    Utils.send("end");
   }
 
   private int getColorPercent(

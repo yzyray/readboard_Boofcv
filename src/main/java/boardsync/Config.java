@@ -19,6 +19,8 @@ public class Config {
   public int whiteOffset = 96;
   public int blackPercent = 33;
   public int whitePercent = 33;
+  public int keepSyncIntervalMillseconds = 200;
+  public boolean autoMinimize = true;
 
   public Config() throws IOException {
     try {
@@ -33,6 +35,8 @@ public class Config {
     whiteOffset = config.optInt("white-offset", 96);
     blackPercent = config.optInt("black-percent", 33);
     whitePercent = config.optInt("white-percent", 33);
+    keepSyncIntervalMillseconds = config.optInt("keep-sync-interval-millseconds", 200);
+    autoMinimize = config.optBoolean("auto-minimize", true);
   }
 
   public void saveAndWriteConfig() throws IOException {
@@ -41,6 +45,8 @@ public class Config {
     config.put("white-offset", whiteOffset);
     config.put("black-percent", blackPercent);
     config.put("white-percent", whitePercent);
+    config.put("keep-sync-interval-millseconds", keepSyncIntervalMillseconds);
+    config.put("auto-minimize", autoMinimize);
     writeConfig(config);
   }
 
@@ -68,6 +74,8 @@ public class Config {
     config.put("white-offset", whiteOffset);
     config.put("black-percent", blackPercent);
     config.put("white-percent", whitePercent);
+    config.put("keep-sync-interval-millseconds", keepSyncIntervalMillseconds);
+    config.put("auto-minimize", autoMinimize);
     return config;
   }
 }

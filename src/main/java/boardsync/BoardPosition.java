@@ -5,6 +5,6 @@ public class BoardPosition {
   public int y;
   public int width;
   public int height;
-  public int hGap;
-  public int vGap;
+  // public int hGap;
+  // public int vGap;
 }
