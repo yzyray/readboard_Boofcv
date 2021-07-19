@@ -126,5 +126,10 @@
    			 <artifactId>boofcv-swing</artifactId>
    			 <version>0.37</version>
 		</dependency> 
+				<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180130</version>
+		</dependency>
 	</dependencies>
 </project>

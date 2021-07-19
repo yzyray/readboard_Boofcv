@@ -30,13 +30,13 @@ public class BoardOCR {
       for (int j = 0; j < BoardSyncTool.boardWidth; j++) {
         if (getColorPercent(
                 input, Math.round(j * vGap), Math.round(i * hGap), vGapInt, hGapInt, true)
-            >= BoardSyncTool.blackPercent) {
+            >= BoardSyncTool.config.blackPercent) {
           result = result + "1,";
         } else {
           int whitePercent =
               getColorPercent(
                   input, Math.round(j * vGap), Math.round(i * hGap), vGapInt, hGapInt, false);
-          if (whitePercent >= BoardSyncTool.whitePercent) {
+          if (whitePercent >= BoardSyncTool.config.whitePercent) {
             if (j == 0
                 || j == BoardSyncTool.boardWidth - 1
                 || i == 0
@@ -71,17 +71,17 @@ public class BoardOCR {
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         int rgb[] = getRGB(input, startX + x, startY + y);
-        if (Math.abs(rgb[0] - rgb[1]) < 50
-            && Math.abs(rgb[0] - rgb[2]) < 50
-            && Math.abs(rgb[1] - rgb[2]) < 50) {
+        if (Math.abs(rgb[0] - rgb[1]) < BoardSyncTool.config.grayOffset
+            && Math.abs(rgb[0] - rgb[2]) < BoardSyncTool.config.grayOffset
+            && Math.abs(rgb[1] - rgb[2]) < BoardSyncTool.config.grayOffset) {
           if (isBlack) {
-            if (rgb[0] <= BoardSyncTool.blackOffset
-                && rgb[1] <= BoardSyncTool.blackOffset
-                && rgb[2] <= BoardSyncTool.blackOffset) {
+            if (rgb[0] <= BoardSyncTool.config.blackOffset
+                && rgb[1] <= BoardSyncTool.config.blackOffset
+                && rgb[2] <= BoardSyncTool.config.blackOffset) {
               sum++;
             }
           } else {
-            int value = 255 - BoardSyncTool.whiteOffset;
+            int value = 255 - BoardSyncTool.config.whiteOffset;
             if (rgb[0] >= value && rgb[1] >= value && rgb[2] >= value) {
               sum++;
             }
