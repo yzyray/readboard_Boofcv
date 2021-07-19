@@ -69,6 +69,7 @@ public class ToolFrame extends JFrame {
     txtTotalVisits.setColumns(6);
     initComponents();
     this.setResizable(false);
+    this.setAlwaysOnTop(true);
     this.addWindowListener(
         new WindowAdapter() {
           public void windowClosing(WindowEvent e) {
@@ -191,7 +192,7 @@ public class ToolFrame extends JFrame {
   private void initCenter() {
 
     GridBagLayout gbl_buttonBar = new GridBagLayout();
-    gbl_buttonBar.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    //  gbl_buttonBar.columnWeights = new double[] {0.0, 0.0, 0.0, 0.0, 0.0};
     centerPane.setLayout(gbl_buttonBar);
     // buttonBar.setBorder(new EmptyBorder(12, 12, 12, 12));
 

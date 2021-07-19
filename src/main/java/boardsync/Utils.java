@@ -1,6 +1,5 @@
 package boardsync;
 
-import java.awt.AWTException;
 import java.awt.Component;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -11,18 +10,8 @@ public class Utils {
     SwingUtilities.invokeLater(
         new Runnable() {
           public void run() {
-            if (BoardSyncTool.boardPosition == null) {
-              JOptionPane.showMessageDialog(
-                  parentComponent, message, title, JOptionPane.WARNING_MESSAGE);
-            } else {
-              BoardOCR boardOCR = new BoardOCR();
-              try {
-                boardOCR.oneTimeSync();
-              } catch (AWTException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-              }
-            }
+            JOptionPane.showMessageDialog(
+                parentComponent, message, title, JOptionPane.WARNING_MESSAGE);
           }
         });
   }
