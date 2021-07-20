@@ -1,6 +1,11 @@
 package boardsync;
 
+import java.awt.AWTException;
 import java.awt.Font;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.Robot;
+import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -52,16 +57,46 @@ public class BoardSyncTool {
     new Thread() {
       public void run() {
         try {
+          Robot robot = new Robot();
           String line = "";
           while ((line = inputReader.readLine()) != null) {
-            System.out.println(line);
+            if (toolFrame.chkBothSync.isSelected()) {
+              if (line.startsWith("place")) {
+                String[] params = line.trim().split(" ");
+                if (params.length == 3) {
+                  place(params[1], params[2], robot);
+                }
+              }
+            }
           }
-        } catch (IOException e) {
+        } catch (IOException | AWTException e) {
           // TODO Auto-generated catch block
           e.printStackTrace();
         }
       }
     }.start();
+  }
+
+  public static void place(String strX, String strY, Robot robot) {
+    Point point = MouseInfo.getPointerInfo().getLocation();
+    try {
+      int x = Integer.parseInt(strX.trim());
+      int y = Integer.parseInt(strY.trim());
+      float hGap = BoardSyncTool.boardPosition.height / (float) BoardSyncTool.boardHeight;
+      float vGap = BoardSyncTool.boardPosition.width / (float) BoardSyncTool.boardWidth;
+      int posX = (int) Math.round((x + 0.5) * vGap + BoardSyncTool.boardPosition.x);
+      int posY = (int) Math.round((y + 0.5) * hGap + BoardSyncTool.boardPosition.y);
+      robot.mouseMove(posX, posY);
+      robot.mousePress(InputEvent.BUTTON1_MASK);
+      robot.mouseRelease(InputEvent.BUTTON1_MASK);
+      if (config.useDoubleClick) {
+        robot.mousePress(InputEvent.BUTTON1_MASK);
+        robot.mouseRelease(InputEvent.BUTTON1_MASK);
+      }
+      robot.mouseMove((int) point.getX(), (int) point.getY());
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+    }
   }
 
   public static void setUIFont(javax.swing.plaf.FontUIResource f) {

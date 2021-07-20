@@ -21,6 +21,10 @@ public class Config {
   public int whitePercent = 33;
   public int keepSyncIntervalMillseconds = 200;
   public boolean autoMinimize = true;
+  public int locationX = 50;
+  public int locationY = 50;
+  public boolean lastTimeBothSync = false;
+  public boolean useDoubleClick = true;
 
   public Config() throws IOException {
     try {
@@ -37,9 +41,14 @@ public class Config {
     whitePercent = config.optInt("white-percent", 33);
     keepSyncIntervalMillseconds = config.optInt("keep-sync-interval-millseconds", 200);
     autoMinimize = config.optBoolean("auto-minimize", true);
+    locationX = config.optInt("location-x", 50);
+    locationY = config.optInt("location-y", 50);
+    lastTimeBothSync = config.optBoolean("last-time-both-sync", false);
+    useDoubleClick = config.optBoolean("use-double-click", true);
   }
 
   public void saveAndWriteConfig() throws IOException {
+
     config.put("gray-offset", grayOffset);
     config.put("black-offset", blackOffset);
     config.put("white-offset", whiteOffset);
@@ -47,6 +56,13 @@ public class Config {
     config.put("white-percent", whitePercent);
     config.put("keep-sync-interval-millseconds", keepSyncIntervalMillseconds);
     config.put("auto-minimize", autoMinimize);
+    locationX = BoardSyncTool.toolFrame.getLocation().x;
+    locationY = BoardSyncTool.toolFrame.getLocation().y;
+    lastTimeBothSync = BoardSyncTool.toolFrame.chkBothSync.isSelected();
+    config.put("location-x", locationX);
+    config.put("location-y", locationY);
+    config.put("last-time-both-sync", lastTimeBothSync);
+    config.put("use-double-click", useDoubleClick);
     writeConfig(config);
   }
 
@@ -76,6 +92,10 @@ public class Config {
     config.put("white-percent", whitePercent);
     config.put("keep-sync-interval-millseconds", keepSyncIntervalMillseconds);
     config.put("auto-minimize", autoMinimize);
+    config.put("location-x", locationX);
+    config.put("location-y", locationY);
+    config.put("last-time-both-sync", lastTimeBothSync);
+    config.put("use-double-click", useDoubleClick);
     return config;
   }
 }

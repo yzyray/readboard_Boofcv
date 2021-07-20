@@ -14,13 +14,13 @@ public class BoardOCR {
     }
     BoardPosition position = BoardSyncTool.boardPosition;
     BufferedImage input = getScreenImage(position.x, position.y, position.width, position.height);
+    Utils.send("sync");
     Utils.send("start " + BoardSyncTool.boardWidth + " " + BoardSyncTool.boardHeight + " ");
     recognizeBoard(input);
   }
 
   private BufferedImage getScreenImage(int x, int y, int width, int height) throws AWTException {
     Robot robot = new Robot();
-    // robot.mouseMove(x, y);
     return robot.createScreenCapture(new Rectangle(x, y, width, height));
   }
 
