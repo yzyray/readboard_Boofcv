@@ -8,14 +8,8 @@ import java.awt.image.BufferedImage;
 public class BoardOCR {
 
   public void oneTimeSync() throws AWTException {
-    if (BoardSyncTool.boardPosition == null) {
-      Utils.showMssage(BoardSyncTool.toolFrame, "未选择棋盘", "消息提醒");
-      return;
-    }
     BoardPosition position = BoardSyncTool.boardPosition;
     BufferedImage input = getScreenImage(position.x, position.y, position.width, position.height);
-    Utils.send("sync");
-    Utils.send("start " + BoardSyncTool.boardWidth + " " + BoardSyncTool.boardHeight + " ");
     recognizeBoard(input);
   }
 

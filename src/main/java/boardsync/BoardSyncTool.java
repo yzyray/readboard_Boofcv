@@ -60,11 +60,17 @@ public class BoardSyncTool {
           Robot robot = new Robot();
           String line = "";
           while ((line = inputReader.readLine()) != null) {
-            if (toolFrame.chkBothSync.isSelected()) {
+            if (toolFrame.chkBothSync.isSelected()
+                && toolFrame.isKeepSyncing
+                && !toolFrame.keepSyncThreadInterrupted) {
               if (line.startsWith("place")) {
                 String[] params = line.trim().split(" ");
                 if (params.length == 3) {
-                  place(params[1], params[2], robot);
+                  new Thread() {
+                    public void run() {
+                      place(params[1], params[2], robot);
+                    }
+                  }.start();
                 }
               }
             }
@@ -88,9 +94,21 @@ public class BoardSyncTool {
       int posY = (int) Math.round((y + 0.5) * hGap + BoardSyncTool.boardPosition.y);
       robot.mouseMove(posX, posY);
       robot.mousePress(InputEvent.BUTTON1_MASK);
+      try {
+        Thread.sleep(30);
+      } catch (InterruptedException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
       robot.mouseRelease(InputEvent.BUTTON1_MASK);
       if (config.useDoubleClick) {
         robot.mousePress(InputEvent.BUTTON1_MASK);
+        try {
+          Thread.sleep(30);
+        } catch (InterruptedException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
         robot.mouseRelease(InputEvent.BUTTON1_MASK);
       }
       robot.mouseMove((int) point.getX(), (int) point.getY());

@@ -33,8 +33,8 @@ public class ToolFrame extends JFrame {
   /** */
   private static final long serialVersionUID = 1L;
 
-  private boolean isKeepSyncing = false;
-  private boolean keepSyncThreadInterrupted = false;
+  public boolean isKeepSyncing = false;
+  public boolean keepSyncThreadInterrupted = false;
   private JPanel dialogPane = new JPanel();
   private JPanel northPane = new JPanel();
   private JPanel centerPane = new JPanel();
@@ -76,10 +76,15 @@ public class ToolFrame extends JFrame {
     rdoGroup.add(this.rdoPlayWhite);
 
     this.chkBothSync.setSelected(BoardSyncTool.config.lastTimeBothSync);
+
     this.txtBoardWidth.setText(BoardSyncTool.boardWidth + "");
     this.txtBoardHeight.setText(BoardSyncTool.boardHeight + "");
-    if (!chkBothSync.isSelected()) this.chkAutoPlay.setEnabled(false);
-    if (!chkBothSync.isSelected()) {
+
+    if (chkBothSync.isSelected()) {
+      Utils.send("bothSync");
+    } else {
+      Utils.send("nobothSync");
+      this.chkAutoPlay.setEnabled(false);
       this.rdoPlayBlack.setEnabled(false);
       this.rdoPlayWhite.setEnabled(false);
       this.txtFirstVisits.setEnabled(false);
@@ -90,8 +95,11 @@ public class ToolFrame extends JFrame {
         new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent e) {
-            if (chkBothSync.isSelected()) chkAutoPlay.setEnabled(true);
-            else {
+            if (chkBothSync.isSelected()) {
+              chkAutoPlay.setEnabled(true);
+              Utils.send("bothSync");
+            } else {
+              Utils.send("nobothSync");
               rdoGroup.remove(rdoPlayBlack);
               rdoGroup.remove(rdoPlayWhite);
               chkAutoPlay.setEnabled(false);
@@ -357,6 +365,12 @@ public class ToolFrame extends JFrame {
             BoardOCR boardOCR = new BoardOCR();
             try {
               setExtendedState(JFrame.ICONIFIED);
+              if (BoardSyncTool.boardPosition == null) {
+                Utils.showMssage(BoardSyncTool.toolFrame, "未选择棋盘", "消息提醒");
+                return;
+              }
+              Utils.send(
+                  "start " + BoardSyncTool.boardWidth + " " + BoardSyncTool.boardHeight + " ");
               boardOCR.oneTimeSync();
               setExtendedState(JFrame.NORMAL);
             } catch (AWTException e) {
@@ -471,7 +485,7 @@ public class ToolFrame extends JFrame {
       if (this.rdoPlayBlack.isSelected() || this.rdoPlayWhite.isSelected())
         Utils.send(
             "play>"
-                + (this.rdoPlayBlack.isSelected() ? "black" : "White")
+                + (this.rdoPlayBlack.isSelected() ? "black" : "white")
                 + ">"
                 + (this.txtTotalTime.getText().trim().equals("")
                     ? "0"
@@ -492,6 +506,9 @@ public class ToolFrame extends JFrame {
       this.btnKeepSync.setText("停止同步");
       this.btnSelectBoard.setEnabled(false);
       this.btnSelectRow1.setEnabled(false);
+      Utils.send("sync");
+      Utils.send("start " + BoardSyncTool.boardWidth + " " + BoardSyncTool.boardHeight + " ");
+      sendAutoPlayInfo();
     } else {
       this.btnKeepSync.setText("持续同步(" + BoardSyncTool.config.keepSyncIntervalMillseconds + "ms)");
       this.btnSelectBoard.setEnabled(true);
