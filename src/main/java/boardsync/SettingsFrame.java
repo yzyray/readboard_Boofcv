@@ -244,14 +244,14 @@ public class SettingsFrame extends JDialog {
             setVisible(false);
           }
         });
-    buttonPane.add(btnCancel);
-    loadValue();
+    buttonPane.add(btnCancel);    
     txtBlackOffset.setDocument(new IntDocument());
     txtBlackPercent.setDocument(new IntDocument());
     txtWhiteOffset.setDocument(new IntDocument());
     txtWhitePercent.setDocument(new IntDocument());
     txtGrayOffset.setDocument(new IntDocument());
     txtSyncInterval.setDocument(new IntDocument());
+    loadValue();
     pack();
     setLocationRelativeTo(getOwner());
   }
