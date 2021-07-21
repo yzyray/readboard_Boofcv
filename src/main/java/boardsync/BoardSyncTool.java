@@ -35,6 +35,28 @@ public class BoardSyncTool {
   public static ToolFrame toolFrame;
 
   public static void main(String[] args) {
+    // 共传入5个参数,是否中文 是否java外观 字体大小 宽 高
+    if (args.length == 5) {
+      if (args[0].equals("true")) isChinese = true;
+      else isChinese = false;
+      if (args[1].equals("true")) useJavaLooks = true;
+      else useJavaLooks = false;
+      try {
+        fontSize = Integer.parseInt(args[2]);
+      } catch (NumberFormatException e) {
+        e.printStackTrace();
+      }
+      try {
+        boardWidth = Integer.parseInt(args[3]);
+      } catch (NumberFormatException e) {
+        e.printStackTrace();
+      }
+      try {
+        boardHeight = Integer.parseInt(args[4]);
+      } catch (NumberFormatException e) {
+        e.printStackTrace();
+      }
+    }
     if (isChinese)
       resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings", new Locale("zh", "CN"));
     else resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings", new Locale("en", "US"));

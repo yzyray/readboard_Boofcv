@@ -24,7 +24,7 @@ public class Config {
   public int locationX = 50;
   public int locationY = 50;
   public boolean lastTimeBothSync = false;
-  public boolean useDoubleClick = true;
+  public boolean useDoubleClick = false;
 
   public Config() throws IOException {
     try {
@@ -44,7 +44,7 @@ public class Config {
     locationX = config.optInt("location-x", 50);
     locationY = config.optInt("location-y", 50);
     lastTimeBothSync = config.optBoolean("last-time-both-sync", false);
-    useDoubleClick = config.optBoolean("use-double-click", true);
+    useDoubleClick = config.optBoolean("use-double-click", false);
   }
 
   public void saveAndWriteConfig() throws IOException {

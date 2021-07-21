@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -44,7 +46,7 @@ public class ToolFrame extends JFrame {
   private final JButton btnHelp = new JButton("帮助");
   private final JButton btnKeepSync = new JButton("持续同步(200ms)");
   private final JButton btnOneTimeSync = new JButton("单次同步");
-  private final JButton btnSettings = new JButton("参数设置");
+  private final JButton btnSettings = new JButton("设置");
   public final JCheckBox chkBothSync = new JCheckBox("双向同步");
   private final JCheckBox chkAutoPlay = new JCheckBox("自动落子");
   private final JRadioButton rdoPlayBlack = new JRadioButton("执黑");
@@ -74,11 +76,7 @@ public class ToolFrame extends JFrame {
     ButtonGroup rdoGroup = new ButtonGroup();
     rdoGroup.add(this.rdoPlayBlack);
     rdoGroup.add(this.rdoPlayWhite);
-
     this.chkBothSync.setSelected(BoardSyncTool.config.lastTimeBothSync);
-
-    this.txtBoardWidth.setText(BoardSyncTool.boardWidth + "");
-    this.txtBoardHeight.setText(BoardSyncTool.boardHeight + "");
 
     if (chkBothSync.isSelected()) {
       Utils.send("bothSync");
@@ -238,7 +236,15 @@ public class ToolFrame extends JFrame {
             sendAutoPlayInfo();
           }
         });
+    this.txtBoardWidth.setText(BoardSyncTool.boardWidth + "");
+    this.txtBoardHeight.setText(BoardSyncTool.boardHeight + "");
     initComponents();
+    setTitle(BoardSyncTool.resourceBundle.getString("ToolFrame.title"));
+    try {
+      setIconImage(ImageIO.read(ToolFrame.class.getResourceAsStream("/assets/logo.png")));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     this.setResizable(false);
     this.setAlwaysOnTop(true);
     this.setLocation(BoardSyncTool.config.locationX, BoardSyncTool.config.locationY);
@@ -267,13 +273,6 @@ public class ToolFrame extends JFrame {
   }
 
   private void initComponents() {
-
-    setTitle(BoardSyncTool.resourceBundle.getString("ToolFrame.title"));
-    try {
-      setIconImage(ImageIO.read(ToolFrame.class.getResourceAsStream("/assets/logo.png")));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
 
     Container contentPane = getContentPane();
     contentPane.setLayout(new BorderLayout());
@@ -350,6 +349,20 @@ public class ToolFrame extends JFrame {
           }
         });
     northPane.add(btnSelectRow1);
+    btnHelp.addActionListener(
+        new ActionListener() {
+          public void actionPerformed(ActionEvent arg0) {
+            try {
+              java.awt.Desktop.getDesktop().browse(new URI("help.htm"));
+            } catch (IOException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+            } catch (URISyntaxException e) {
+              // TODO Auto-generated catch block
+              e.printStackTrace();
+            }
+          }
+        });
     northPane.add(btnHelp);
     btnKeepSync.addActionListener(
         new ActionListener() {
@@ -380,6 +393,13 @@ public class ToolFrame extends JFrame {
           }
         });
     northPane.add(btnOneTimeSync);
+    btnSettings.addActionListener(
+        new ActionListener() {
+          public void actionPerformed(ActionEvent arg0) {
+            SettingsFrame settingsFrame = new SettingsFrame(thisFrame);
+            settingsFrame.setVisible(true);
+          }
+        });
     northPane.add(btnSettings);
   }
 
