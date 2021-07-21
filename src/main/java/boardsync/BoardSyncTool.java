@@ -82,10 +82,10 @@ public class BoardSyncTool {
           Robot robot = new Robot();
           String line = "";
           while ((line = inputReader.readLine()) != null) {
-            if (toolFrame.chkBothSync.isSelected()
-                && toolFrame.isKeepSyncing
-                && !toolFrame.keepSyncThreadInterrupted) {
-              if (line.startsWith("place")) {
+            if (line.startsWith("place")) {
+              if (toolFrame.chkBothSync.isSelected()
+                  && toolFrame.isKeepSyncing
+                  && !toolFrame.keepSyncThreadInterrupted) {
                 String[] params = line.trim().split(" ");
                 if (params.length == 3) {
                   new Thread() {
@@ -96,6 +96,7 @@ public class BoardSyncTool {
                 }
               }
             }
+            if (line.equals("quit")) shutdown();
           }
         } catch (IOException | AWTException e) {
           // TODO Auto-generated catch block
@@ -171,5 +172,16 @@ public class BoardSyncTool {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+  }
+
+  public static void shutdown() {
+    // TODO Auto-generated method stub
+    try {
+      config.saveAndWriteConfig();
+    } catch (IOException e1) {
+      // TODO Auto-generated catch block
+      e1.printStackTrace();
+    }
+    System.exit(0);
   }
 }

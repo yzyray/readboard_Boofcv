@@ -251,13 +251,7 @@ public class ToolFrame extends JFrame {
     this.addWindowListener(
         new WindowAdapter() {
           public void windowClosing(WindowEvent e) {
-            try {
-              BoardSyncTool.config.saveAndWriteConfig();
-            } catch (IOException e1) {
-              // TODO Auto-generated catch block
-              e1.printStackTrace();
-            }
-            System.exit(0);
+            BoardSyncTool.shutdown();
           }
         });
   }
