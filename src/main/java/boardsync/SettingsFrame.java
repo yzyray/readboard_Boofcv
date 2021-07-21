@@ -244,7 +244,7 @@ public class SettingsFrame extends JDialog {
             setVisible(false);
           }
         });
-    buttonPane.add(btnCancel);    
+    buttonPane.add(btnCancel);
     txtBlackOffset.setDocument(new IntDocument());
     txtBlackPercent.setDocument(new IntDocument());
     txtWhiteOffset.setDocument(new IntDocument());
