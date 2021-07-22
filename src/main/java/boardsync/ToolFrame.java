@@ -382,7 +382,8 @@ public class ToolFrame extends JFrame {
         new ActionListener() {
           public void actionPerformed(ActionEvent arg0) {
             try {
-              java.awt.Desktop.getDesktop().browse(new URI("help.htm"));
+              java.awt.Desktop.getDesktop()
+                  .browse(new URI(BoardSyncTool.isChinese ? "help.mht" : "help_en.mht"));
             } catch (IOException e) {
               e.printStackTrace();
             } catch (URISyntaxException e) {
