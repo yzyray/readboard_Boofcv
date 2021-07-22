@@ -143,7 +143,7 @@ public class ScreenShotDialog extends JDialog {
   }
 
   protected void close() {
-    if (orgx > 0 && orgy > 0) {
+    if (capWidth > 0 && capHeight > 0) {
       Robot robot;
       try {
         robot = new Robot();
