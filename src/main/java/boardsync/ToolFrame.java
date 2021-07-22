@@ -12,9 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -383,10 +382,12 @@ public class ToolFrame extends JFrame {
           public void actionPerformed(ActionEvent arg0) {
             try {
               java.awt.Desktop.getDesktop()
-                  .browse(new URI(BoardSyncTool.isChinese ? "help.mht" : "help_en.mht"));
+                  .open(
+                      new File(
+                          "readboard_java"
+                              + File.separator
+                              + (BoardSyncTool.isChinese ? "help.docx" : "help_en.docx")));
             } catch (IOException e) {
-              e.printStackTrace();
-            } catch (URISyntaxException e) {
               e.printStackTrace();
             }
           }
