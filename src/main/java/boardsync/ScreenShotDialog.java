@@ -143,18 +143,20 @@ public class ScreenShotDialog extends JDialog {
   }
 
   protected void close() {
-    Robot robot;
-    try {
-      robot = new Robot();
-      imageOut = robot.createScreenCapture(new Rectangle(startX, startY, capWidth, capHeight));
-    } catch (AWTException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    if (orgx > 0 && orgy > 0) {
+      Robot robot;
+      try {
+        robot = new Robot();
+        imageOut = robot.createScreenCapture(new Rectangle(startX, startY, capWidth, capHeight));
+      } catch (AWTException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      BoardSyncTool.screenImage = imageOut;
+      BoardSyncTool.screenImageStartX = startX;
+      BoardSyncTool.screenImageStartY = startY;
     }
     this.dispose();
-    BoardSyncTool.screenImage = imageOut;
-    BoardSyncTool.screenImageStartX = startX;
-    BoardSyncTool.screenImageStartY = startY;
     BoardSyncTool.isGettingScreen = false;
   }
 
