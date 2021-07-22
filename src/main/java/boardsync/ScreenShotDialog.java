@@ -4,6 +4,7 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 import java.awt.AWTException;
 import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -80,9 +81,10 @@ public class ScreenShotDialog extends JDialog {
     capWidth = width;
     capHeight = height;
     g.setBackground(backGroundColor);
-    g.clearRect(x - 1, y - 1, width + 1, height + 1);
+    g.clearRect(x, y, width, height);
     g.setColor(Color.BLUE);
-    g.drawRect(x - 1, y - 1, width + 1, height + 1);
+    g.setStroke(new BasicStroke(2));
+    g.drawRect(x, y, width, height);
     repaint();
     //		int tx = endx + 5;
     //		int ty = endy + 20;
