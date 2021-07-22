@@ -5,9 +5,9 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import boofcv.abst.feature.detect.line.DetectLineSegment;
 import boofcv.factory.feature.detect.line.ConfigLineRansac;
 import boofcv.factory.feature.detect.line.FactoryDetectLine;
-import boofcv.gui.ListDisplayPanel;
-import boofcv.gui.feature.ImageLinePanel;
-import boofcv.gui.image.ShowImages;
+//import boofcv.gui.ListDisplayPanel;
+//import boofcv.gui.feature.ImageLinePanel;
+//import boofcv.gui.image.ShowImages;
 import boofcv.io.image.ConvertBufferedImage;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
@@ -23,7 +23,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class LineDetection {
-  private boolean showDebugImages = false;
+  //private boolean showDebugImages = false;
   private int size;
 
   private <T extends ImageGray<T>, D extends ImageGray<D>>
@@ -40,17 +40,17 @@ public class LineDetection {
 
     List<LineSegment2D_F32> found = detector.detect(input);
 
-    if (showDebugImages) {
-      System.out.println("Lines: " + found.size());
-      // display the results
-      ImageLinePanel gui = new ImageLinePanel();
-      gui.setImage(image);
-      gui.setLineSegments(found);
-      gui.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
-      ListDisplayPanel listPanel = new ListDisplayPanel();
-      listPanel.addItem(gui, "Line Segments");
-      ShowImages.showWindow(listPanel, "Detected Lines");
-    }
+//    if (showDebugImages) {
+//      System.out.println("Lines: " + found.size());
+//      // display the results
+//      ImageLinePanel gui = new ImageLinePanel();
+//      gui.setImage(image);
+//      gui.setLineSegments(found);
+//      gui.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+//      ListDisplayPanel listPanel = new ListDisplayPanel();
+//      listPanel.addItem(gui, "Line Segments");
+//      ShowImages.showWindow(listPanel, "Detected Lines");
+//    }
     return found;
   }
 
@@ -82,22 +82,22 @@ public class LineDetection {
     SortLines(horizonLines);
     SortLines(verticalLines);
 
-    if (showDebugImages) {
-      BufferedImage linesImage =
-          new BufferedImage(srcImage.getWidth(), srcImage.getHeight(), TYPE_INT_ARGB);
-      Graphics2D g = (Graphics2D) linesImage.getGraphics();
-      g.drawImage(srcImage, 0, 0, null);
-      g.setColor(Color.GREEN);
-      g.setStroke(new BasicStroke(1));
-      for (VerticalHorizonLines line : horizonLines) {
-        g.drawLine(line.start, Math.round(line.position), line.end, Math.round(line.position));
-      }
-      g.setColor(Color.BLUE);
-      for (VerticalHorizonLines line : verticalLines) {
-        g.drawLine(Math.round(line.position), line.start, Math.round(line.position), line.end);
-      }
-      ShowImages.showWindow(linesImage, "Lines");
-    }
+//    if (showDebugImages) {
+//      BufferedImage linesImage =
+//          new BufferedImage(srcImage.getWidth(), srcImage.getHeight(), TYPE_INT_ARGB);
+//      Graphics2D g = (Graphics2D) linesImage.getGraphics();
+//      g.drawImage(srcImage, 0, 0, null);
+//      g.setColor(Color.GREEN);
+//      g.setStroke(new BasicStroke(1));
+//      for (VerticalHorizonLines line : horizonLines) {
+//        g.drawLine(line.start, Math.round(line.position), line.end, Math.round(line.position));
+//      }
+//      g.setColor(Color.BLUE);
+//      for (VerticalHorizonLines line : verticalLines) {
+//        g.drawLine(Math.round(line.position), line.start, Math.round(line.position), line.end);
+//      }
+//      ShowImages.showWindow(linesImage, "Lines");
+//    }
   }
 
   private int calculateGap(List<VerticalHorizonLines> Lines) {
@@ -323,17 +323,17 @@ public class LineDetection {
 
     validateLines(horizonLines, hGap);
     validateLines(verticalLines, vGap);
-    if (showDebugImages) {
-      System.out.println("H rawGap: " + hGap);
-      System.out.println("V rawGap: " + vGap);
-    }
+//    if (showDebugImages) {
+//      System.out.println("H rawGap: " + hGap);
+//      System.out.println("V rawGap: " + vGap);
+//    }
 
     hGap = reCalculateGap(horizonLines, hGap);
     vGap = reCalculateGap(verticalLines, vGap);
-    if (showDebugImages) {
-      System.out.println("H gap: " + hGap);
-      System.out.println("V gap: " + vGap);
-    }
+//    if (showDebugImages) {
+//      System.out.println("H gap: " + hGap);
+//      System.out.println("V gap: " + vGap);
+//    }
     int boardWidth = vGap * (BoardSyncTool.boardWidth - 1);
     int boardHeight = hGap * (BoardSyncTool.boardHeight - 1);
 
@@ -347,16 +347,16 @@ public class LineDetection {
     int x1 = Math.round(verticalLineIntervals.get(0).maxPos + (hGap + 1) / 2);
     int y0 = Math.round(horizonLineIntervals.get(0).minPos - (vGap + 1) / 2);
     int y1 = Math.round(horizonLineIntervals.get(0).maxPos + (vGap + 1) / 2);
-    if (showDebugImages) {
-      BufferedImage boardImage =
-          new BufferedImage(input.getWidth(), input.getHeight(), TYPE_INT_ARGB);
-      Graphics2D g = (Graphics2D) boardImage.getGraphics();
-      g.drawImage(input, 0, 0, null);
-      g.setColor(Color.GREEN);
-      g.setStroke(new BasicStroke(1));
-      g.drawRect(x0, y0, x1 - x0, y1 - y0);
-      ShowImages.showWindow(boardImage, "Row1");
-    }
+//    if (showDebugImages) {
+//      BufferedImage boardImage =
+//          new BufferedImage(input.getWidth(), input.getHeight(), TYPE_INT_ARGB);
+//      Graphics2D g = (Graphics2D) boardImage.getGraphics();
+//      g.drawImage(input, 0, 0, null);
+//      g.setColor(Color.GREEN);
+//      g.setStroke(new BasicStroke(1));
+//      g.drawRect(x0, y0, x1 - x0, y1 - y0);
+//      ShowImages.showWindow(boardImage, "Row1");
+//    }
 
     BoardPosition position = new BoardPosition();
     position.x = BoardSyncTool.screenImageStartX + x0;

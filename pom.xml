@@ -121,11 +121,11 @@
    			 <artifactId>boofcv-core</artifactId>
    			 <version>0.37</version>
 		</dependency> 
-			<dependency>
+		<!--	<dependency>
     		<groupId>org.boofcv</groupId>
    			 <artifactId>boofcv-swing</artifactId>
    			 <version>0.37</version>
-		</dependency> 
+		</dependency>  -->
 				<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
