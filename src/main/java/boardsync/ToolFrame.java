@@ -406,7 +406,7 @@ public class ToolFrame extends JFrame {
           public void actionPerformed(ActionEvent arg0) {
             BoardOCR boardOCR = new BoardOCR();
             try {
-              setExtendedState(JFrame.ICONIFIED);
+              if (BoardSyncTool.isWindows) setExtendedState(JFrame.ICONIFIED);
               if (BoardSyncTool.boardPosition == null) {
                 Utils.showMssage(
                     BoardSyncTool.toolFrame,
@@ -417,7 +417,7 @@ public class ToolFrame extends JFrame {
               Utils.send(
                   "start " + BoardSyncTool.boardWidth + " " + BoardSyncTool.boardHeight + " ");
               boardOCR.oneTimeSync();
-              setExtendedState(JFrame.NORMAL);
+              if (BoardSyncTool.isWindows) setExtendedState(JFrame.NORMAL);
             } catch (AWTException e) {
               e.printStackTrace();
             }

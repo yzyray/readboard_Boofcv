@@ -33,6 +33,8 @@ public class BoardSyncTool {
   public static BoardPosition boardPosition = null;
   public static Config config;
   public static ToolFrame toolFrame;
+  public static boolean isWindows =
+      System.getProperties().getProperty("os.name").toUpperCase().indexOf("WINDOWS") != -1;
 
   public static void main(String[] args) {
     // 共传入5个参数,是否中文 是否java外观 字体大小 宽 高
