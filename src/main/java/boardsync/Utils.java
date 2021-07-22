@@ -28,4 +28,11 @@ public class Utils {
       return defaultValue;
     }
   }
+
+  public static int parseTextToInt(JTextField text, int defaultValue, int minValue, int maxValue) {
+    int value = parseTextToInt(text, defaultValue);
+    value = Math.max(minValue, value);
+    value = Math.min(maxValue, value);
+    return value;
+  }
 }

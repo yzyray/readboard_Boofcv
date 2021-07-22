@@ -38,7 +38,7 @@ public class SettingsFrame extends JDialog {
   public SettingsFrame(Window owner) {
     super(owner);
     setResizable(false);
-    setTitle("设置");
+    setTitle(BoardSyncTool.resourceBundle.getString("SettingsFrame.title"));
     try {
       setIconImage(ImageIO.read(ToolFrame.class.getResourceAsStream("/assets/logo.png")));
     } catch (IOException e) {
@@ -53,7 +53,8 @@ public class SettingsFrame extends JDialog {
     contentPane.setBorder(new EmptyBorder(12, 12, 0, 12));
     noticePane.setBorder(new EmptyBorder(6, 12, 3, 12));
     southPane.setBorder(new EmptyBorder(0, 0, 3, 0));
-    JLabel lblBlackOffset = new JLabel("黑最大偏色(0-255):");
+    JLabel lblBlackOffset =
+        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblBlackOffset"));
     GridBagConstraints gbc_lblBlackOffset = new GridBagConstraints();
     gbc_lblBlackOffset.fill = GridBagConstraints.HORIZONTAL;
     gbc_lblBlackOffset.insets = new Insets(0, 0, 5, 5);
@@ -70,7 +71,8 @@ public class SettingsFrame extends JDialog {
     contentPane.add(txtBlackOffset, gbc_txtBlackOffset);
     txtBlackOffset.setColumns(6);
 
-    JLabel lblBlackPercent = new JLabel("黑最低占比(1-100):");
+    JLabel lblBlackPercent =
+        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblBlackPercent"));
     GridBagConstraints gbc_lblBlackPercent = new GridBagConstraints();
     gbc_lblBlackPercent.fill = GridBagConstraints.HORIZONTAL;
     gbc_lblBlackPercent.insets = new Insets(0, 0, 5, 5);
@@ -87,7 +89,8 @@ public class SettingsFrame extends JDialog {
     contentPane.add(txtBlackPercent, gbc_txtBlackPercent);
     txtBlackPercent.setColumns(6);
 
-    JLabel lblWhiteOffset = new JLabel("白最大偏色(0-255):");
+    JLabel lblWhiteOffset =
+        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblWhiteOffset"));
     GridBagConstraints gbc_lblWhiteOffset = new GridBagConstraints();
     gbc_lblWhiteOffset.fill = GridBagConstraints.HORIZONTAL;
     gbc_lblWhiteOffset.insets = new Insets(0, 0, 5, 5);
@@ -104,7 +107,8 @@ public class SettingsFrame extends JDialog {
     contentPane.add(txtWhiteOffset, gbc_txtWhiteOffset);
     txtWhiteOffset.setColumns(6);
 
-    JLabel lblWhitePercent = new JLabel("白最低占比(1-100):");
+    JLabel lblWhitePercent =
+        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblWhitePercent"));
     GridBagConstraints gbc_lblWhitePercent = new GridBagConstraints();
     gbc_lblWhitePercent.fill = GridBagConstraints.HORIZONTAL;
     gbc_lblWhitePercent.insets = new Insets(0, 0, 5, 5);
@@ -121,7 +125,8 @@ public class SettingsFrame extends JDialog {
     contentPane.add(txtWhitePercent, gbc_txtWhitePercent);
     txtWhitePercent.setColumns(6);
 
-    JLabel lblSyncInterval = new JLabel("同步时间间隔(ms)");
+    JLabel lblSyncInterval =
+        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblSyncInterval"));
     GridBagConstraints gbc_lblSyncInterval = new GridBagConstraints();
     gbc_lblSyncInterval.fill = GridBagConstraints.HORIZONTAL;
     gbc_lblSyncInterval.insets = new Insets(0, 0, 5, 5);
@@ -138,7 +143,8 @@ public class SettingsFrame extends JDialog {
     contentPane.add(txtSyncInterval, gbc_txtSyncInterval);
     txtSyncInterval.setColumns(6);
 
-    JLabel lblGrayOffset = new JLabel("最大灰度偏色(0-255)");
+    JLabel lblGrayOffset =
+        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblGrayOffset"));
     GridBagConstraints gbc_lblGrayOffset = new GridBagConstraints();
     gbc_lblGrayOffset.fill = GridBagConstraints.HORIZONTAL;
     gbc_lblGrayOffset.insets = new Insets(0, 0, 5, 5);
@@ -155,7 +161,8 @@ public class SettingsFrame extends JDialog {
     contentPane.add(txtGrayOffset, gbc_txtGrayOffset);
     txtGrayOffset.setColumns(6);
 
-    JLabel lblAutoMin = new JLabel("同步开始自动最小化");
+    JLabel lblAutoMin =
+        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblAutoMin"));
     GridBagConstraints gbc_lblAutoMin = new GridBagConstraints();
     gbc_lblAutoMin.fill = GridBagConstraints.HORIZONTAL;
     gbc_lblAutoMin.insets = new Insets(0, 0, 0, 5);
@@ -170,7 +177,8 @@ public class SettingsFrame extends JDialog {
     gbc_chkAutoMin.gridy = 3;
     contentPane.add(chkAutoMin, gbc_chkAutoMin);
 
-    JLabel lblDoubleClick = new JLabel("使用双击模拟落子");
+    JLabel lblDoubleClick =
+        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblDoubleClick"));
     GridBagConstraints gbc_lblDoubleClick = new GridBagConstraints();
     gbc_lblDoubleClick.fill = GridBagConstraints.HORIZONTAL;
     gbc_lblDoubleClick.insets = new Insets(0, 0, 0, 5);
@@ -188,10 +196,11 @@ public class SettingsFrame extends JDialog {
     southPane.add(buttonPane, BorderLayout.CENTER);
     southPane.add(noticePane, BorderLayout.NORTH);
     noticePane.setLayout(new GridLayout(2, 1, 0, 0));
-    noticePane.add(new JLabel("注:若某种颜色棋子出现缺少,可增加最大偏色或降低最低占比"));
-    noticePane.add(new JLabel("     若出现多余,可降低最大偏色或增加最低占比"));
+    noticePane.add(new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.notice1")));
+    noticePane.add(new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.notice2")));
 
-    JButton btnReset = new JButton("还原默认设置");
+    JButton btnReset =
+        new JButton(BoardSyncTool.resourceBundle.getString("SettingsFrame.btnReset"));
     btnReset.addActionListener(
         new ActionListener() {
           public void actionPerformed(ActionEvent e) {
@@ -207,20 +216,21 @@ public class SettingsFrame extends JDialog {
         });
     buttonPane.add(btnReset);
 
-    JButton btnApply = new JButton("确定");
+    JButton btnApply =
+        new JButton(BoardSyncTool.resourceBundle.getString("SettingsFrame.btnApply"));
     btnApply.addActionListener(
         new ActionListener() {
           public void actionPerformed(ActionEvent e) {
             BoardSyncTool.config.blackOffset =
-                Utils.parseTextToInt(txtBlackOffset, BoardSyncTool.config.blackOffset);
+                Utils.parseTextToInt(txtBlackOffset, BoardSyncTool.config.blackOffset, 0, 255);
             BoardSyncTool.config.blackPercent =
-                Utils.parseTextToInt(txtBlackPercent, BoardSyncTool.config.blackPercent);
+                Utils.parseTextToInt(txtBlackPercent, BoardSyncTool.config.blackPercent, 1, 100);
             BoardSyncTool.config.whiteOffset =
-                Utils.parseTextToInt(txtWhiteOffset, BoardSyncTool.config.whiteOffset);
+                Utils.parseTextToInt(txtWhiteOffset, BoardSyncTool.config.whiteOffset, 0, 255);
             BoardSyncTool.config.whitePercent =
-                Utils.parseTextToInt(txtWhitePercent, BoardSyncTool.config.whitePercent);
+                Utils.parseTextToInt(txtWhitePercent, BoardSyncTool.config.whitePercent, 1, 100);
             BoardSyncTool.config.grayOffset =
-                Utils.parseTextToInt(txtGrayOffset, BoardSyncTool.config.grayOffset);
+                Utils.parseTextToInt(txtGrayOffset, BoardSyncTool.config.grayOffset, 0, 255);
             BoardSyncTool.config.keepSyncIntervalMillseconds =
                 Utils.parseTextToInt(
                     txtSyncInterval, BoardSyncTool.config.keepSyncIntervalMillseconds);
@@ -229,7 +239,6 @@ public class SettingsFrame extends JDialog {
             try {
               BoardSyncTool.config.saveAndWriteConfig();
             } catch (IOException e1) {
-              // TODO Auto-generated catch block
               e1.printStackTrace();
             }
             setVisible(false);
@@ -237,7 +246,8 @@ public class SettingsFrame extends JDialog {
         });
     buttonPane.add(btnApply);
 
-    JButton btnCancel = new JButton("取消");
+    JButton btnCancel =
+        new JButton(BoardSyncTool.resourceBundle.getString("SettingsFrame.btnCancel"));
     btnCancel.addActionListener(
         new ActionListener() {
           public void actionPerformed(ActionEvent e) {

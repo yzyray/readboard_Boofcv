@@ -25,102 +25,6 @@ import java.util.List;
 public class LineDetection {
   private boolean showDebugImages = false;
   private int size;
-  // adjusts edge threshold for identifying pixels belonging to a line
-  //  private static final float edgeThreshold = 25;
-  // adjust the maximum number of found lines in the image
-  // private static final int maxLines = 10;
-
-  //  private BufferedImage edgeDetect(BufferedImage image) {
-  //
-  //    GrayU8 gray = ConvertBufferedImage.convertFrom(image, (GrayU8) null);
-  //    GrayU8 edgeImage = gray.createSameShape();
-  //
-  //    // Create a canny edge detector which will dynamically compute the threshold based on
-  // maximum
-  //    // edge intensity
-  //    // It has also been configured to save the trace as a graph.  This is the graph created
-  // while
-  //    // performing
-  //    // hysteresis thresholding.
-  //    CannyEdge<GrayU8, GrayS16> canny =
-  //        FactoryEdgeDetectors.canny(2, true, true, GrayU8.class, GrayS16.class);
-  //
-  //    // The edge image is actually an optional parameter.  If you don't need it just pass in null
-  //    canny.process(gray,0.1f,0.3f,edgeImage);
-  //
-  //    // First get the contour created by canny
-  //    //	List<EdgeContour> edgeContours = canny.getContours();
-  //    // The 'edgeContours' is a tree graph that can be difficult to process.  An alternative is
-  // to
-  //    // extract
-  //    // the contours from the binary image, which will produce a single loop for each connected
-  //    // cluster of pixels.
-  //    // Note that you are only interested in external contours.
-  //    //	List<Contour> contours = BinaryImageOps.contourExternal(edgeImage, ConnectRule.EIGHT);
-  //
-  //    // display the results
-  //    BufferedImage visualBinary = VisualizeBinaryData.renderBinary(edgeImage, false, null);
-  //
-  //    //	BufferedImage visualCannyContour = VisualizeBinaryData.renderContours(edgeContours,null,
-  //    //			gray.width,gray.height,null);
-  //    // BufferedImage visualEdgeContour = new BufferedImage(gray.width,
-  //    // gray.height,BufferedImage.TYPE_INT_RGB);
-  //    //	VisualizeBinaryData.render(contours, (int[]) null, visualEdgeContour);
-  //
-  //    ListDisplayPanel panel = new ListDisplayPanel();
-  //    panel.addImage(visualBinary, "Binary Edges from Canny");
-  //    // panel.addImage(visualCannyContour, "Canny Trace Graph");
-  //    //	panel.addImage(visualEdgeContour,"Contour from Canny Binary");
-  //    ShowImages.showWindow(panel, "Canny Edge", true);
-  //    return visualBinary;
-  //  }
-
-  //  private BufferedImage showSelectedColor(BufferedImage input) {
-  //    int width = input.getWidth();
-  //    int height = input.getHeight();
-  //    int whiteValue = getColorRGBValue(Color.WHITE);
-  //
-  //    // step through each pixel and mark how close it is to the selected color
-  //    BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-  //    for (int y = 0; y < height; y++) {
-  //      for (int x = 0; x < width; x++) {
-  //        // Hue is an angle in radians, so simple subtraction doesn't work
-  //        int rgb[] = getRGB(input, x, y);
-  // if(Math.abs(rgb[0]-rgb[1])<100&&Math.abs(rgb[0]-rgb[2])<100&&Math.abs(rgb[1]-rgb[2])<100)
-  // {
-  //	if (rgb[0] < 150 && rgb[1] < 150 && rgb[2] < 150) {
-  //          output.setRGB(x, y, input.getRGB(x, y));
-  //        } else output.setRGB(x, y, whiteValue);
-  //      }
-  // else output.setRGB(x, y, whiteValue);
-  //    }
-  //    }
-  //
-  //    ShowImages.showWindow(output, "Color In Range");
-  //    return output;
-  //  }
-  //
-  //  private int getColorRGBValue(Color color) {
-  //    int red = color.getRed();
-  //    int green = color.getGreen();
-  //    int blue = color.getBlue();
-  //    int rgb = red;
-  //    rgb = (rgb << 8) + green;
-  //    rgb = (rgb << 8) + blue;
-  //    return rgb;
-  //  }
-  //
-  //  private int[] getRGB(BufferedImage image, int x, int y) {
-  //    int[] rgb = null;
-  //
-  //    rgb = new int[3];
-  //    int pixel = image.getRGB(x, y);
-  //    rgb[0] = (pixel & 0xff0000) >> 16;
-  //    rgb[1] = (pixel & 0xff00) >> 8;
-  //    rgb[2] = (pixel & 0xff);
-  //
-  //    return rgb;
-  //  }
 
   private <T extends ImageGray<T>, D extends ImageGray<D>>
       List<LineSegment2D_F32> detectLineSegments(
@@ -197,7 +101,6 @@ public class LineDetection {
   }
 
   private int calculateGap(List<VerticalHorizonLines> Lines) {
-    // TODO Auto-generated method stub
     List<Float> gaps = new ArrayList<Float>();
     for (int s = 0; s < Lines.size() - 1; s++) {
       VerticalHorizonLines line1 = Lines.get(s);
@@ -236,29 +139,10 @@ public class LineDetection {
         });
 
     float finalGap = gapCounts.get(0).gap;
-    //  if (gapCounts.size() == 1)
     return Math.round(finalGap);
-    //    List<GapCount> needAvgGaps = new ArrayList<GapCount>();
-    //    needAvgGaps.add(gapCounts.get(0));
-    //    for (int s = 1; s < 5 && s < gapCounts.size(); s++) {
-    //      if (Math.abs(gapCounts.get(s).gap - finalGap) < 3
-    //          && gapCounts.get(s).counts > gapCounts.get(0).counts / 3) {
-    //        needAvgGaps.add(gapCounts.get(s));
-    //      }
-    //    }
-    //    if (needAvgGaps.size() > 1) {
-    //      int all = 0;
-    //      int allCounts=0;
-    //      for (int s = 0; s < needAvgGaps.size(); s++) {
-    //        all += needAvgGaps.get(s).counts*needAvgGaps.get(s).gap;
-    //        allCounts+=needAvgGaps.get(s).counts;
-    //      }
-    //      return Math.round(all / allCounts);
-    //    } else return Math.round(finalGap);
   }
 
   private void SortLines(List<VerticalHorizonLines> lines) {
-    // TODO Auto-generated method stub
     Collections.sort(
         lines,
         new Comparator<VerticalHorizonLines>() {
@@ -319,7 +203,6 @@ public class LineDetection {
   }
 
   private int reCalculateGap(List<VerticalHorizonLines> Lines, int rawGap) {
-    // TODO Auto-generated method stub
     List<GapCount> gapCounts = new ArrayList<GapCount>();
     for (int n = 0; n < Lines.size(); n++) {
       VerticalHorizonLines line1 = Lines.get(n);
@@ -360,7 +243,6 @@ public class LineDetection {
   }
 
   private List<lineInterval> calculateInterval(List<VerticalHorizonLines> lines, int length) {
-    // TODO Auto-generated method stub
     List<lineInterval> lineIntervals = new ArrayList<lineInterval>();
     for (int s = 0; s < lines.size(); s++) {
       VerticalHorizonLines line1 = lines.get(s);
@@ -388,7 +270,6 @@ public class LineDetection {
 
   private void reCalculateInterval(
       List<lineInterval> lineIntervals, List<VerticalHorizonLines> lines, int gap) {
-    // TODO Auto-generated method stub
     while (lineIntervals.size() >= 2
         && Math.abs(lineIntervals.get(0).interval - lineIntervals.get(1).interval) <= gap / 3) {
       float v0Min = lineIntervals.get(0).minPos + gap / 2f;

@@ -19,11 +19,11 @@ import javax.swing.plaf.FontUIResource;
 
 public class BoardSyncTool {
   public static ResourceBundle resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings");
-  private static boolean isChinese = true; // 处理参数传入
-  private static boolean useJavaLooks = false; // 处理参数传入
-  private static int fontSize = 12; // 处理参数传入
+  private static boolean isChinese = true;
+  private static boolean useJavaLooks = false;
+  private static int fontSize = 12;
 
-  public static int boardWidth = 19; // 处理参数传入或者配置读取
+  public static int boardWidth = 19;
   public static int boardHeight = 19;
 
   public static boolean isGettingScreen = false;
@@ -64,7 +64,6 @@ public class BoardSyncTool {
     try {
       config = new Config();
     } catch (IOException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     toolFrame = new ToolFrame();
@@ -74,7 +73,6 @@ public class BoardSyncTool {
   }
 
   private static void startGetInputStreamThread() {
-    // TODO Auto-generated method stub
     BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
     new Thread() {
       public void run() {
@@ -99,7 +97,6 @@ public class BoardSyncTool {
             if (line.equals("quit")) shutdown();
           }
         } catch (IOException | AWTException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
         }
       }
@@ -120,7 +117,6 @@ public class BoardSyncTool {
       try {
         Thread.sleep(30);
       } catch (InterruptedException e) {
-        // TODO Auto-generated catch block
         e.printStackTrace();
       }
       robot.mouseRelease(InputEvent.BUTTON1_MASK);
@@ -129,7 +125,6 @@ public class BoardSyncTool {
         try {
           Thread.sleep(30);
         } catch (InterruptedException e) {
-          // TODO Auto-generated catch block
           e.printStackTrace();
         }
         robot.mouseRelease(InputEvent.BUTTON1_MASK);
@@ -169,17 +164,14 @@ public class BoardSyncTool {
         | InstantiationException
         | IllegalAccessException
         | UnsupportedLookAndFeelException e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
 
   public static void shutdown() {
-    // TODO Auto-generated method stub
     try {
       config.saveAndWriteConfig();
     } catch (IOException e1) {
-      // TODO Auto-generated catch block
       e1.printStackTrace();
     }
     System.exit(0);

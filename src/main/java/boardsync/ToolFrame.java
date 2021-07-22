@@ -41,31 +41,52 @@ public class ToolFrame extends JFrame {
   private JPanel northPane = new JPanel();
   private JPanel centerPane = new JPanel();
   private JPanel southPane = new JPanel();
-  private final JButton btnSelectBoard = new JButton("框选棋盘");
-  private final JButton btnSelectRow1 = new JButton("框选1路线");
-  private final JButton btnHelp = new JButton("帮助");
-  private final JButton btnKeepSync = new JButton("持续同步(200ms)");
-  private final JButton btnOneTimeSync = new JButton("单次同步");
-  private final JButton btnSettings = new JButton("设置");
-  public final JCheckBox chkBothSync = new JCheckBox("双向同步");
-  private final JCheckBox chkAutoPlay = new JCheckBox("自动落子");
-  private final JRadioButton rdoPlayBlack = new JRadioButton("执黑");
-  private final JRadioButton rdoPlayWhite = new JRadioButton("执白");
-  private final JTextField txtTotalVisits = new JTextField();
-  private final JLabel lblTotalVisits = new JLabel("总计算量:");
-  private final JTextField txtTotalTime = new JTextField();
-  private final JLabel lblTotalTime = new JLabel("每手用时:");
+  private final JButton btnSelectBoard =
+      new JButton(BoardSyncTool.resourceBundle.getString("ToolFrame.btnSelectBoard"));
+  private final JButton btnSelectRow1 =
+      new JButton(BoardSyncTool.resourceBundle.getString("ToolFrame.btnSelectRow1"));
+  private final JButton btnHelp =
+      new JButton(BoardSyncTool.resourceBundle.getString("ToolFrame.btnHelp"));
+  private final JButton btnKeepSync =
+      new JButton(
+          BoardSyncTool.resourceBundle.getString("ToolFrame.btnKeepSync")
+              + "("
+              + BoardSyncTool.config.keepSyncIntervalMillseconds
+              + "ms)");
+  private final JButton btnOneTimeSync =
+      new JButton(BoardSyncTool.resourceBundle.getString("ToolFrame.btnOneTimeSync"));
+  private final JButton btnSettings =
+      new JButton(BoardSyncTool.resourceBundle.getString("ToolFrame.btnSettings"));
+  public final JCheckBox chkBothSync =
+      new JCheckBox(BoardSyncTool.resourceBundle.getString("ToolFrame.chkBothSync"));
+  private final JCheckBox chkAutoPlay =
+      new JCheckBox(BoardSyncTool.resourceBundle.getString("ToolFrame.chkAutoPlay"));
+  private final JRadioButton rdoPlayBlack =
+      new JRadioButton(BoardSyncTool.resourceBundle.getString("ToolFrame.rdoPlayBlack"));
+  private final JRadioButton rdoPlayWhite =
+      new JRadioButton(BoardSyncTool.resourceBundle.getString("ToolFrame.rdoPlayWhite"));
+  public final JTextField txtTotalVisits = new JTextField();
+  private final JLabel lblTotalVisits =
+      new JLabel(BoardSyncTool.resourceBundle.getString("ToolFrame.lblTotalVisits"));
+  public final JTextField txtTotalTime = new JTextField();
+  private final JLabel lblTotalTime =
+      new JLabel(BoardSyncTool.resourceBundle.getString("ToolFrame.lblTotalTime"));
   private final JPanel boardPane = new JPanel();
-  private final JLabel lblBoard = new JLabel("棋盘:");
+  private final JLabel lblBoard =
+      new JLabel(BoardSyncTool.resourceBundle.getString("ToolFrame.lblBoard"));
   private final JTextField txtBoardWidth = new JTextField();
   private final JLabel lblTimes = new JLabel("X");
   private final JTextField txtBoardHeight = new JTextField();
-  private final JButton btnPass = new JButton("交换顺序");
-  private final JButton btnClear = new JButton("清空棋盘");
-  private final JButton btnToggleAnalyze = new JButton("停止/分析");
+  private final JButton btnPass =
+      new JButton(BoardSyncTool.resourceBundle.getString("ToolFrame.btnPass"));
+  private final JButton btnClear =
+      new JButton(BoardSyncTool.resourceBundle.getString("ToolFrame.btnClear"));
+  private final JButton btnToggleAnalyze =
+      new JButton(BoardSyncTool.resourceBundle.getString("ToolFrame.btnToggleAnalyze"));
   private JFrame thisFrame = this;
-  private final JLabel lblFirstVisits = new JLabel("首位:");
-  private final JTextField txtFirstVisits = new JTextField();
+  private final JLabel lblFirstVisits =
+      new JLabel(BoardSyncTool.resourceBundle.getString("ToolFrame.lblFirstVisits"));
+  public final JTextField txtFirstVisits = new JTextField();
 
   public ToolFrame() {
     txtFirstVisits.setColumns(6);
@@ -80,6 +101,11 @@ public class ToolFrame extends JFrame {
 
     if (chkBothSync.isSelected()) {
       Utils.send("bothSync");
+      this.rdoPlayBlack.setEnabled(false);
+      this.rdoPlayWhite.setEnabled(false);
+      this.txtFirstVisits.setEnabled(false);
+      this.txtTotalTime.setEnabled(false);
+      this.txtTotalVisits.setEnabled(false);
     } else {
       Utils.send("nobothSync");
       this.chkAutoPlay.setEnabled(false);
@@ -236,8 +262,8 @@ public class ToolFrame extends JFrame {
             sendAutoPlayInfo();
           }
         });
-    this.txtBoardWidth.setText(BoardSyncTool.boardWidth + "");
-    this.txtBoardHeight.setText(BoardSyncTool.boardHeight + "");
+
+    loadValue();
     initComponents();
     setTitle(BoardSyncTool.resourceBundle.getString("ToolFrame.title"));
     try {
@@ -256,13 +282,22 @@ public class ToolFrame extends JFrame {
         });
   }
 
+  private void loadValue() {
+    this.txtBoardWidth.setText(BoardSyncTool.boardWidth + "");
+    this.txtBoardHeight.setText(BoardSyncTool.boardHeight + "");
+    if (BoardSyncTool.config.lastTimeTotalTime > 0)
+      this.txtTotalTime.setText(BoardSyncTool.config.lastTimeTotalTime + "");
+    if (BoardSyncTool.config.lastTimeTotalVisits > 0)
+      this.txtTotalVisits.setText(BoardSyncTool.config.lastTimeTotalVisits + "");
+    if (BoardSyncTool.config.lastTimeFirstVisits > 0)
+      this.txtFirstVisits.setText(BoardSyncTool.config.lastTimeFirstVisits + "");
+  }
+
   private void updateBoardHeight() {
-    // TODO Auto-generated method stub
     BoardSyncTool.boardHeight = Integer.parseInt(txtBoardHeight.getText());
   }
 
   private void updateBoardWidth() {
-    // TODO Auto-generated method stub
     BoardSyncTool.boardWidth = Integer.parseInt(txtBoardWidth.getText());
   }
 
@@ -349,10 +384,8 @@ public class ToolFrame extends JFrame {
             try {
               java.awt.Desktop.getDesktop().browse(new URI("help.htm"));
             } catch (IOException e) {
-              // TODO Auto-generated catch block
               e.printStackTrace();
             } catch (URISyntaxException e) {
-              // TODO Auto-generated catch block
               e.printStackTrace();
             }
           }
@@ -373,7 +406,10 @@ public class ToolFrame extends JFrame {
             try {
               setExtendedState(JFrame.ICONIFIED);
               if (BoardSyncTool.boardPosition == null) {
-                Utils.showMssage(BoardSyncTool.toolFrame, "未选择棋盘", "消息提醒");
+                Utils.showMssage(
+                    BoardSyncTool.toolFrame,
+                    BoardSyncTool.resourceBundle.getString("ToolFrame.noBoard"),
+                    BoardSyncTool.resourceBundle.getString("ToolFrame.information"));
                 return;
               }
               Utils.send(
@@ -381,7 +417,6 @@ public class ToolFrame extends JFrame {
               boardOCR.oneTimeSync();
               setExtendedState(JFrame.NORMAL);
             } catch (AWTException e) {
-              // TODO Auto-generated catch block
               e.printStackTrace();
             }
           }
@@ -517,14 +552,18 @@ public class ToolFrame extends JFrame {
   private void setKeepSyncStatus(boolean isSyncing) {
     if (isSyncing) {
       if (BoardSyncTool.config.autoMinimize) setExtendedState(JFrame.ICONIFIED);
-      this.btnKeepSync.setText("停止同步");
+      this.btnKeepSync.setText(BoardSyncTool.resourceBundle.getString("ToolFrame.stopSync"));
       this.btnSelectBoard.setEnabled(false);
       this.btnSelectRow1.setEnabled(false);
       Utils.send("sync");
       Utils.send("start " + BoardSyncTool.boardWidth + " " + BoardSyncTool.boardHeight + " ");
       sendAutoPlayInfo();
     } else {
-      this.btnKeepSync.setText("持续同步(" + BoardSyncTool.config.keepSyncIntervalMillseconds + "ms)");
+      this.btnKeepSync.setText(
+          BoardSyncTool.resourceBundle.getString("ToolFrame.btnKeepSync")
+              + "("
+              + BoardSyncTool.config.keepSyncIntervalMillseconds
+              + "ms)");
       this.btnSelectBoard.setEnabled(true);
       this.btnSelectRow1.setEnabled(true);
       Utils.send("stopsync");
@@ -540,11 +579,17 @@ public class ToolFrame extends JFrame {
 
   private void startKeepSync() {
     if (isKeepSyncing) {
-      Utils.showMssage(thisFrame, "正在持续同步中,请先停止", "消息提醒");
+      Utils.showMssage(
+          thisFrame,
+          BoardSyncTool.resourceBundle.getString("ToolFrame.stopSyncFirst"),
+          BoardSyncTool.resourceBundle.getString("ToolFrame.information"));
       return;
     }
     if (BoardSyncTool.boardPosition == null) {
-      Utils.showMssage(BoardSyncTool.toolFrame, "未选择棋盘", "消息提醒");
+      Utils.showMssage(
+          BoardSyncTool.toolFrame,
+          BoardSyncTool.resourceBundle.getString("ToolFrame.noBoard"),
+          BoardSyncTool.resourceBundle.getString("ToolFrame.information"));
       return;
     }
     isKeepSyncing = true;
@@ -556,13 +601,11 @@ public class ToolFrame extends JFrame {
           try {
             boardOCR.oneTimeSync();
           } catch (AWTException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
           }
           try {
             Thread.sleep(BoardSyncTool.config.keepSyncIntervalMillseconds);
           } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
           }
         }
@@ -589,7 +632,6 @@ public class ToolFrame extends JFrame {
           try {
             Thread.sleep(20);
           } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
           }
         }

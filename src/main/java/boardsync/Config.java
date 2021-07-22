@@ -23,8 +23,11 @@ public class Config {
   public boolean autoMinimize = true;
   public int locationX = 50;
   public int locationY = 50;
-  public boolean lastTimeBothSync = false;
   public boolean useDoubleClick = false;
+  public boolean lastTimeBothSync = false;
+  public int lastTimeTotalTime = -1;
+  public int lastTimeTotalVisits = -1;
+  public int lastTimeFirstVisits = -1;
 
   public Config() throws IOException {
     try {
@@ -43,8 +46,12 @@ public class Config {
     autoMinimize = config.optBoolean("auto-minimize", true);
     locationX = config.optInt("location-x", 50);
     locationY = config.optInt("location-y", 50);
-    lastTimeBothSync = config.optBoolean("last-time-both-sync", false);
     useDoubleClick = config.optBoolean("use-double-click", false);
+
+    lastTimeBothSync = config.optBoolean("last-time-both-sync", false);
+    lastTimeTotalTime = config.optInt("last-time-total-time", -1);
+    lastTimeTotalVisits = config.optInt("last-time-total-visits", -1);
+    lastTimeFirstVisits = config.optInt("last-time-fitst-visits", -1);
   }
 
   public void saveAndWriteConfig() throws IOException {
@@ -56,13 +63,21 @@ public class Config {
     config.put("white-percent", whitePercent);
     config.put("keep-sync-interval-millseconds", keepSyncIntervalMillseconds);
     config.put("auto-minimize", autoMinimize);
+    config.put("use-double-click", useDoubleClick);
+
     locationX = BoardSyncTool.toolFrame.getLocation().x;
     locationY = BoardSyncTool.toolFrame.getLocation().y;
-    lastTimeBothSync = BoardSyncTool.toolFrame.chkBothSync.isSelected();
     config.put("location-x", locationX);
     config.put("location-y", locationY);
+
+    lastTimeBothSync = BoardSyncTool.toolFrame.chkBothSync.isSelected();
+    lastTimeTotalTime = Utils.parseTextToInt(BoardSyncTool.toolFrame.txtTotalTime, -1);
+    lastTimeTotalVisits = Utils.parseTextToInt(BoardSyncTool.toolFrame.txtFirstVisits, -1);
+    lastTimeFirstVisits = Utils.parseTextToInt(BoardSyncTool.toolFrame.txtFirstVisits, -1);
     config.put("last-time-both-sync", lastTimeBothSync);
-    config.put("use-double-click", useDoubleClick);
+    config.put("last-time-total-time", lastTimeTotalTime);
+    config.put("last-time-total-visits", lastTimeTotalVisits);
+    config.put("last-time-fitst-visits", lastTimeFirstVisits);
     writeConfig(config);
   }
 
@@ -92,10 +107,15 @@ public class Config {
     config.put("white-percent", whitePercent);
     config.put("keep-sync-interval-millseconds", keepSyncIntervalMillseconds);
     config.put("auto-minimize", autoMinimize);
+    config.put("use-double-click", useDoubleClick);
+
     config.put("location-x", locationX);
     config.put("location-y", locationY);
+
     config.put("last-time-both-sync", lastTimeBothSync);
-    config.put("use-double-click", useDoubleClick);
+    config.put("last-time-total-time", lastTimeTotalTime);
+    config.put("last-time-total-visits", lastTimeTotalVisits);
+    config.put("last-time-fitst-visits", lastTimeFirstVisits);
     return config;
   }
 }

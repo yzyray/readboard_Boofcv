@@ -33,7 +33,6 @@ public class ScreenShotDialog extends JDialog {
             }
           };
     } catch (Exception e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
@@ -42,7 +41,6 @@ public class ScreenShotDialog extends JDialog {
     try {
       t.open();
     } catch (Exception e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
