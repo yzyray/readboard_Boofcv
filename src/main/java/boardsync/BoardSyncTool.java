@@ -107,32 +107,59 @@ public class BoardSyncTool {
 
   public static void place(String strX, String strY, Robot robot) {
     Point point = MouseInfo.getPointerInfo().getLocation();
+    int x = -1;
+    int y = -1;
+    int maxTimes = 10;
     try {
-      int x = Integer.parseInt(strX.trim());
-      int y = Integer.parseInt(strY.trim());
-      float hGap = BoardSyncTool.boardPosition.height / (float) BoardSyncTool.boardHeight;
-      float vGap = BoardSyncTool.boardPosition.width / (float) BoardSyncTool.boardWidth;
-      int posX = (int) Math.round((x + 0.5) * vGap + BoardSyncTool.boardPosition.x);
-      int posY = (int) Math.round((y + 0.5) * hGap + BoardSyncTool.boardPosition.y);
+      x = Integer.parseInt(strX.trim());
+      y = Integer.parseInt(strY.trim());
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+      return;
+    }
+    float hGap = BoardSyncTool.boardPosition.height / (float) BoardSyncTool.boardHeight;
+    float vGap = BoardSyncTool.boardPosition.width / (float) BoardSyncTool.boardWidth;
+    int posX = (int) Math.round((x + 0.5) * vGap + BoardSyncTool.boardPosition.x);
+    int posY = (int) Math.round((y + 0.5) * hGap + BoardSyncTool.boardPosition.y);
+    int verifyX = (int) Math.round(x * vGap + BoardSyncTool.boardPosition.x);
+    int verifyY = (int) Math.round(y * hGap + BoardSyncTool.boardPosition.y);
+    try {
+      do {
+        mouseClick(posX, posY, robot);
+        maxTimes--;
+      } while (BoardSyncTool.config.verifyPlacedMove
+          && maxTimes > 0
+          && !verifyMove(verifyX, verifyY, Math.round(vGap), Math.round(hGap), x, y));
+    } catch (AWTException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    robot.mouseMove((int) point.getX(), (int) point.getY());
+  }
+
+  private static boolean verifyMove(int x, int y, int width, int height, int moveX, int moveY)
+      throws AWTException {
+    try {
+      Thread.sleep(200);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    BoardOCR boardOCR = new BoardOCR();
+    return boardOCR.hasMoveAt(x, y, width, height, moveX, moveY);
+  }
+
+  private static void mouseClick(int posX, int posY, Robot robot) {
+    try {
+      robot.mouseMove(posX, posY);
+      Thread.sleep(30);
       robot.mouseMove(posX, posY);
       robot.mousePress(InputEvent.BUTTON1_MASK);
-      try {
-        Thread.sleep(30);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
+      Thread.sleep(30);
       robot.mouseRelease(InputEvent.BUTTON1_MASK);
-      if (config.useDoubleClick) {
-        robot.mousePress(InputEvent.BUTTON1_MASK);
-        try {
-          Thread.sleep(30);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-        robot.mouseRelease(InputEvent.BUTTON1_MASK);
-      }
-      robot.mouseMove((int) point.getX(), (int) point.getY());
-    } catch (NumberFormatException e) {
+      Thread.sleep(30);
+    } catch (InterruptedException e) {
+      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }

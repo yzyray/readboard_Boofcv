@@ -7,6 +7,30 @@ import java.awt.image.BufferedImage;
 
 public class BoardOCR {
 
+  public boolean hasMoveAt(int x, int y, int width, int height, int moveX, int moveY)
+      throws AWTException {
+    if (width <= 0 || height <= 0) return true;
+    BufferedImage input = getScreenImage(x, y, width, height);
+    boolean hasStone = false;
+    if (getColorPercent(input, x, y, width, height, true) >= BoardSyncTool.config.blackPercent)
+      hasStone = true;
+    int whitePercent = getColorPercent(input, x, y, width, height, false);
+    if (whitePercent >= BoardSyncTool.config.whitePercent) {
+      if (moveX == 0
+          || moveX == BoardSyncTool.boardWidth - 1
+          || moveY == 0
+          || moveY == BoardSyncTool.boardHeight - 1) {
+        if (whitePercent > 85) hasStone = false;
+        else hasStone = true;
+      } else {
+        if (whitePercent > 80) hasStone = false;
+        else hasStone = true;
+      }
+      hasStone = true;
+    }
+    return hasStone;
+  }
+
   public void oneTimeSync() throws AWTException {
     BoardPosition position = BoardSyncTool.boardPosition;
     BufferedImage input = getScreenImage(position.x, position.y, position.width, position.height);

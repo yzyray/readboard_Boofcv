@@ -23,7 +23,7 @@ public class Config {
   public boolean autoMinimize = true;
   public int locationX = 50;
   public int locationY = 50;
-  public boolean useDoubleClick = false;
+  public boolean verifyPlacedMove = true;
   public boolean lastTimeBothSync = false;
   public int lastTimeTotalTime = -1;
   public int lastTimeTotalVisits = -1;
@@ -46,7 +46,7 @@ public class Config {
     autoMinimize = config.optBoolean("auto-minimize", true);
     locationX = config.optInt("location-x", 50);
     locationY = config.optInt("location-y", 50);
-    useDoubleClick = config.optBoolean("use-double-click", false);
+    verifyPlacedMove = config.optBoolean("verify-placed-move", true);
 
     lastTimeBothSync = config.optBoolean("last-time-both-sync", false);
     lastTimeTotalTime = config.optInt("last-time-total-time", -1);
@@ -63,7 +63,7 @@ public class Config {
     config.put("white-percent", whitePercent);
     config.put("keep-sync-interval-millseconds", keepSyncIntervalMillseconds);
     config.put("auto-minimize", autoMinimize);
-    config.put("use-double-click", useDoubleClick);
+    config.put("verify-placed-move", verifyPlacedMove);
 
     locationX = BoardSyncTool.toolFrame.getLocation().x;
     locationY = BoardSyncTool.toolFrame.getLocation().y;
@@ -107,7 +107,7 @@ public class Config {
     config.put("white-percent", whitePercent);
     config.put("keep-sync-interval-millseconds", keepSyncIntervalMillseconds);
     config.put("auto-minimize", autoMinimize);
-    config.put("use-double-click", useDoubleClick);
+    config.put("verify-placed-move", verifyPlacedMove);
 
     config.put("location-x", locationX);
     config.put("location-y", locationY);

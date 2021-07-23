@@ -293,11 +293,17 @@ public class ToolFrame extends JFrame {
   }
 
   private void updateBoardHeight() {
-    BoardSyncTool.boardHeight = Integer.parseInt(txtBoardHeight.getText());
+    try {
+      BoardSyncTool.boardHeight = Integer.parseInt(txtBoardHeight.getText());
+    } catch (NumberFormatException e) {
+    }
   }
 
   private void updateBoardWidth() {
-    BoardSyncTool.boardWidth = Integer.parseInt(txtBoardWidth.getText());
+    try {
+      BoardSyncTool.boardWidth = Integer.parseInt(txtBoardWidth.getText());
+    } catch (NumberFormatException e) {
+    }
   }
 
   private void initComponents() {

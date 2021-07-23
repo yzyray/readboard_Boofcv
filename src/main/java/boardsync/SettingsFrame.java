@@ -29,7 +29,7 @@ public class SettingsFrame extends JDialog {
   private JTextField txtSyncInterval;
   private JTextField txtGrayOffset;
   private JCheckBox chkAutoMin;
-  private JCheckBox chkDoubleClick;
+  private JCheckBox chkVerifyPlacedMove;
   private JPanel contentPane = new JPanel();
   private JPanel southPane = new JPanel();
   private JPanel buttonPane = new JPanel();
@@ -177,20 +177,20 @@ public class SettingsFrame extends JDialog {
     gbc_chkAutoMin.gridy = 3;
     contentPane.add(chkAutoMin, gbc_chkAutoMin);
 
-    JLabel lblDoubleClick =
-        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblDoubleClick"));
-    GridBagConstraints gbc_lblDoubleClick = new GridBagConstraints();
-    gbc_lblDoubleClick.fill = GridBagConstraints.HORIZONTAL;
-    gbc_lblDoubleClick.insets = new Insets(0, 0, 0, 5);
-    gbc_lblDoubleClick.gridx = 2;
-    gbc_lblDoubleClick.gridy = 3;
-    contentPane.add(lblDoubleClick, gbc_lblDoubleClick);
+    JLabel lblVerifyPlacedMove =
+        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblVerifyPlacedMove"));
+    GridBagConstraints gbc_lblVerifyPlacedMove = new GridBagConstraints();
+    gbc_lblVerifyPlacedMove.fill = GridBagConstraints.HORIZONTAL;
+    gbc_lblVerifyPlacedMove.insets = new Insets(0, 0, 0, 5);
+    gbc_lblVerifyPlacedMove.gridx = 2;
+    gbc_lblVerifyPlacedMove.gridy = 3;
+    contentPane.add(lblVerifyPlacedMove, gbc_lblVerifyPlacedMove);
 
-    chkDoubleClick = new JCheckBox("");
-    GridBagConstraints gbc_chkDoubleClick = new GridBagConstraints();
-    gbc_chkDoubleClick.gridx = 3;
-    gbc_chkDoubleClick.gridy = 3;
-    contentPane.add(chkDoubleClick, gbc_chkDoubleClick);
+    chkVerifyPlacedMove = new JCheckBox("");
+    GridBagConstraints gbc_chkVerifyPlacedMove = new GridBagConstraints();
+    gbc_chkVerifyPlacedMove.gridx = 3;
+    gbc_chkVerifyPlacedMove.gridy = 3;
+    contentPane.add(chkVerifyPlacedMove, gbc_chkVerifyPlacedMove);
 
     southPane.setLayout(new BorderLayout());
     southPane.add(buttonPane, BorderLayout.CENTER);
@@ -211,7 +211,7 @@ public class SettingsFrame extends JDialog {
             txtGrayOffset.setText("50");
             txtSyncInterval.setText("200");
             chkAutoMin.setSelected(true);
-            chkDoubleClick.setSelected(false);
+            chkVerifyPlacedMove.setSelected(true);
           }
         });
     buttonPane.add(btnReset);
@@ -235,7 +235,7 @@ public class SettingsFrame extends JDialog {
                 Utils.parseTextToInt(
                     txtSyncInterval, BoardSyncTool.config.keepSyncIntervalMillseconds);
             BoardSyncTool.config.autoMinimize = chkAutoMin.isSelected();
-            BoardSyncTool.config.useDoubleClick = chkDoubleClick.isSelected();
+            BoardSyncTool.config.verifyPlacedMove = chkVerifyPlacedMove.isSelected();
             try {
               BoardSyncTool.config.saveAndWriteConfig();
             } catch (IOException e1) {
@@ -274,6 +274,6 @@ public class SettingsFrame extends JDialog {
     txtGrayOffset.setText(BoardSyncTool.config.grayOffset + "");
     txtSyncInterval.setText(BoardSyncTool.config.keepSyncIntervalMillseconds + "");
     chkAutoMin.setSelected(BoardSyncTool.config.autoMinimize);
-    chkDoubleClick.setSelected(BoardSyncTool.config.useDoubleClick);
+    chkVerifyPlacedMove.setSelected(BoardSyncTool.config.verifyPlacedMove);
   }
 }
