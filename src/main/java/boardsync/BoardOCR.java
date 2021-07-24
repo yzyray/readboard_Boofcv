@@ -48,29 +48,92 @@ public class BoardOCR {
     int hGapInt = Math.round(hGap);
     int vGapInt = Math.round(vGap);
     String result = "";
-    for (int i = 0; i < BoardSyncTool.boardHeight; i++) {
-      for (int j = 0; j < BoardSyncTool.boardWidth; j++) {
-        if (getColorPercent(
-                input, Math.round(j * vGap), Math.round(i * hGap), vGapInt, hGapInt, true)
-            >= BoardSyncTool.config.blackPercent) {
-          result = result + "1,";
+    int blackMinPercent = 200;
+    int blackTotalPercent = 0;
+    int blackMinX = -1;
+    int blackMinY = -1;
+    int blackCounts = 0;
+
+    int whiteMinPercent = 200;
+    int whiteTotalPercent = 0;
+    int whiteMinX = -1;
+    int whiteMinY = -1;
+    int whiteCounts = 0;
+
+    int resultValue[] = new int[BoardSyncTool.boardHeight * BoardSyncTool.boardWidth];
+
+    for (int y = 0; y < BoardSyncTool.boardHeight; y++) {
+      for (int x = 0; x < BoardSyncTool.boardWidth; x++) {
+        int blackPercent =
+            getColorPercent(
+                input, Math.round(x * vGap), Math.round(y * hGap), vGapInt, hGapInt, true);
+        if (blackPercent >= BoardSyncTool.config.blackPercent) {
+          resultValue[y * BoardSyncTool.boardWidth + x] = 1;
+          blackTotalPercent += blackPercent;
+          blackCounts++;
+          if (blackPercent < blackMinPercent) {
+            blackMinPercent = blackPercent;
+            blackMinX = x;
+            blackMinY = y;
+          }
         } else {
+          boolean isWhite = false;
           int whitePercent =
               getColorPercent(
-                  input, Math.round(j * vGap), Math.round(i * hGap), vGapInt, hGapInt, false);
+                  input, Math.round(x * vGap), Math.round(y * hGap), vGapInt, hGapInt, false);
           if (whitePercent >= BoardSyncTool.config.whitePercent) {
-            if (j == 0
-                || j == BoardSyncTool.boardWidth - 1
-                || i == 0
-                || i == BoardSyncTool.boardHeight - 1) {
-              if (whitePercent > 85) result = result + "0,";
-              else result = result + "2,";
+            if (x == 0
+                || x == BoardSyncTool.boardWidth - 1
+                || y == 0
+                || y == BoardSyncTool.boardHeight - 1) {
+              if (whitePercent > 85) isWhite = false;
+              else isWhite = true;
             } else {
-              if (whitePercent > 80) result = result + "0,";
-              else result = result + "2,";
+              if (whitePercent > 80) isWhite = false;
+              else isWhite = true;
             }
-          } else result = result + "0,";
+          }
+          if (isWhite) {
+            resultValue[y * BoardSyncTool.boardWidth + x] = 2;
+            whiteTotalPercent += whitePercent;
+            whiteCounts++;
+            if (whitePercent < whiteMinPercent) {
+              whiteMinPercent = whitePercent;
+              whiteMinX = x;
+              whiteMinY = y;
+            }
+          } else resultValue[y * BoardSyncTool.boardWidth + x] = 0;
         }
+      }
+    }
+    if (blackCounts >= 2 && whiteCounts >= 2) {
+      float blackMaxOffset =
+          Math.abs(
+              blackMinPercent - (blackTotalPercent - blackMinPercent) / (float) (blackCounts - 1));
+      float whiteMaxOffset =
+          Math.abs(
+              whiteMinPercent - (whiteTotalPercent - whiteMinPercent) / (float) (whiteCounts - 1));
+      if (blackMaxOffset >= whiteMaxOffset) {
+        if (blackMinY >= 0 && blackMinX >= 0)
+          resultValue[blackMinY * BoardSyncTool.boardWidth + blackMinX] = 3;
+      } else {
+        if (whiteMinY >= 0 && whiteMinX >= 0)
+          resultValue[whiteMinY * BoardSyncTool.boardWidth + whiteMinX] = 4;
+      }
+    } else if (blackCounts > 0 && whiteCounts > 0) {
+      if (blackCounts < whiteCounts) {
+        if (blackMinY >= 0 && blackMinX >= 0)
+          resultValue[blackMinY * BoardSyncTool.boardWidth + blackMinX] = 3;
+      }
+      if (blackCounts > whiteCounts) {
+        if (whiteMinY >= 0 && whiteMinX >= 0)
+          resultValue[whiteMinY * BoardSyncTool.boardWidth + whiteMinX] = 4;
+      }
+    }
+
+    for (int i = 0; i < BoardSyncTool.boardHeight; i++) {
+      for (int j = 0; j < BoardSyncTool.boardWidth; j++) {
+        result += resultValue[i * BoardSyncTool.boardWidth + j] + ",";
         if (j == (BoardSyncTool.boardWidth - 1)) {
           result = result.substring(0, result.length() - 1);
           Utils.send("re=" + result);
