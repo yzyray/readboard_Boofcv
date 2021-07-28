@@ -1,21 +1,12 @@
 package boardsync;
 
-import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
-
 import boofcv.abst.feature.detect.line.DetectLineSegment;
 import boofcv.factory.feature.detect.line.ConfigLineRansac;
 import boofcv.factory.feature.detect.line.FactoryDetectLine;
-//import boofcv.gui.ListDisplayPanel;
-//import boofcv.gui.feature.ImageLinePanel;
-//import boofcv.gui.image.ShowImages;
 import boofcv.io.image.ConvertBufferedImage;
 import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageGray;
 import georegression.struct.line.LineSegment2D_F32;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
