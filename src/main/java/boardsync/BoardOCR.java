@@ -112,8 +112,6 @@ public class BoardOCR {
           } else resultValue[y * BoardSyncTool.boardWidth + x] = 0;
         }
         if (needCheckRedBlue && (isWhite || isBlack)) {
-          System.out.println(colorInfo.bluePercent);
-          System.out.println(colorInfo.redPercent);
           if (colorInfo.bluePercent >= BoardSyncTool.config.bluePercent) {
             blueCount++;
             if (redCount > 1 && blueCount > 1) needCheckRedBlue = false;
