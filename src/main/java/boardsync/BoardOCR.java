@@ -12,18 +12,17 @@ public class BoardOCR {
     if (width <= 0 || height <= 0) return true;
     BufferedImage input = getScreenImage(x, y, width, height);
     boolean hasStone = false;
-    if (getColorPercent(input, x, y, width, height, true) >= BoardSyncTool.config.blackPercent)
-      hasStone = true;
-    int whitePercent = getColorPercent(input, x, y, width, height, false);
-    if (whitePercent >= BoardSyncTool.config.whitePercent) {
+    MoveColorInfo colorInfo = getColorPercent(input, x, y, width, height, false);
+    if (colorInfo.blackPercent >= BoardSyncTool.config.blackPercent) return true;
+    if (colorInfo.whitePercent >= BoardSyncTool.config.whitePercent) {
       if (moveX == 0
           || moveX == BoardSyncTool.boardWidth - 1
           || moveY == 0
           || moveY == BoardSyncTool.boardHeight - 1) {
-        if (whitePercent > 85) hasStone = false;
+        if (colorInfo.whitePercent > 85) hasStone = false;
         else hasStone = true;
       } else {
-        if (whitePercent > 80) hasStone = false;
+        if (colorInfo.whitePercent > 80) hasStone = false;
         else hasStone = true;
       }
       hasStone = true;
@@ -61,76 +60,112 @@ public class BoardOCR {
     int whiteCounts = 0;
 
     int resultValue[] = new int[BoardSyncTool.boardHeight * BoardSyncTool.boardWidth];
+    int redCount = 0;
+    int blueCount = 0;
+    int blueRedX = -1;
+    int blueRedY = -1;
+    boolean needCheckRedBlue = true;
 
     for (int y = 0; y < BoardSyncTool.boardHeight; y++) {
       for (int x = 0; x < BoardSyncTool.boardWidth; x++) {
-        int blackPercent =
+        MoveColorInfo colorInfo =
             getColorPercent(
-                input, Math.round(x * vGap), Math.round(y * hGap), vGapInt, hGapInt, true);
-        if (blackPercent >= BoardSyncTool.config.blackPercent) {
+                input,
+                Math.round(x * vGap),
+                Math.round(y * hGap),
+                vGapInt,
+                hGapInt,
+                needCheckRedBlue);
+        boolean isBlack = colorInfo.blackPercent >= BoardSyncTool.config.blackPercent;
+        boolean isWhite = false;
+        if (isBlack) {
           resultValue[y * BoardSyncTool.boardWidth + x] = 1;
-          blackTotalPercent += blackPercent;
+          blackTotalPercent += colorInfo.blackPercent;
           blackCounts++;
-          if (blackPercent < blackMinPercent) {
-            blackMinPercent = blackPercent;
+          if (colorInfo.blackPercent < blackMinPercent) {
+            blackMinPercent = colorInfo.blackPercent;
             blackMinX = x;
             blackMinY = y;
           }
         } else {
-          boolean isWhite = false;
-          int whitePercent =
-              getColorPercent(
-                  input, Math.round(x * vGap), Math.round(y * hGap), vGapInt, hGapInt, false);
-          if (whitePercent >= BoardSyncTool.config.whitePercent) {
+          if (colorInfo.whitePercent >= BoardSyncTool.config.whitePercent) {
             if (x == 0
                 || x == BoardSyncTool.boardWidth - 1
                 || y == 0
                 || y == BoardSyncTool.boardHeight - 1) {
-              if (whitePercent > 85) isWhite = false;
+              if (colorInfo.whitePercent > 85) isWhite = false;
               else isWhite = true;
             } else {
-              if (whitePercent > 80) isWhite = false;
+              if (colorInfo.whitePercent > 80) isWhite = false;
               else isWhite = true;
             }
           }
           if (isWhite) {
             resultValue[y * BoardSyncTool.boardWidth + x] = 2;
-            whiteTotalPercent += whitePercent;
+            whiteTotalPercent += colorInfo.whitePercent;
             whiteCounts++;
-            if (whitePercent < whiteMinPercent) {
-              whiteMinPercent = whitePercent;
+            if (colorInfo.whitePercent < whiteMinPercent) {
+              whiteMinPercent = colorInfo.whitePercent;
               whiteMinX = x;
               whiteMinY = y;
             }
           } else resultValue[y * BoardSyncTool.boardWidth + x] = 0;
         }
+        if (needCheckRedBlue && (isWhite || isBlack)) {
+          System.out.println(colorInfo.bluePercent);
+          System.out.println(colorInfo.redPercent);
+          if (colorInfo.bluePercent >= BoardSyncTool.config.bluePercent) {
+            blueCount++;
+            if (redCount > 1 && blueCount > 1) needCheckRedBlue = false;
+            else {
+              blueRedX = x;
+              blueRedY = y;
+            }
+          }
+          if (colorInfo.redPercent >= BoardSyncTool.config.redPercent) {
+            redCount++;
+            if (redCount > 1 && blueCount > 1) needCheckRedBlue = false;
+            else {
+              blueRedX = x;
+              blueRedY = y;
+            }
+          }
+        }
       }
     }
-    if (blackCounts >= 2 && whiteCounts >= 2) {
-      float blackMaxOffset =
-          Math.abs(
-              blackMinPercent - (blackTotalPercent - blackMinPercent) / (float) (blackCounts - 1));
-      float whiteMaxOffset =
-          Math.abs(
-              whiteMinPercent - (whiteTotalPercent - whiteMinPercent) / (float) (whiteCounts - 1));
-      if (blackMaxOffset >= whiteMaxOffset) {
-        if (blackMinY >= 0 && blackMinX >= 0)
-          resultValue[blackMinY * BoardSyncTool.boardWidth + blackMinX] = 3;
-      } else {
-        if (whiteMinY >= 0 && whiteMinX >= 0)
-          resultValue[whiteMinY * BoardSyncTool.boardWidth + whiteMinX] = 4;
-      }
-    } else if (blackCounts > 0 && whiteCounts > 0) {
-      if (blackCounts < whiteCounts) {
-        if (blackMinY >= 0 && blackMinX >= 0)
-          resultValue[blackMinY * BoardSyncTool.boardWidth + blackMinX] = 3;
-      }
-      if (blackCounts > whiteCounts) {
-        if (whiteMinY >= 0 && whiteMinX >= 0)
-          resultValue[whiteMinY * BoardSyncTool.boardWidth + whiteMinX] = 4;
+    if ((redCount == 1 && blueCount != 1) || (redCount != 1 && blueCount == 1)) {
+      if (resultValue[blueRedY * BoardSyncTool.boardWidth + blueRedX] == 1)
+        resultValue[blueRedY * BoardSyncTool.boardWidth + blueRedX] = 3;
+      else if (resultValue[blueRedY * BoardSyncTool.boardWidth + blueRedX] == 2)
+        resultValue[blueRedY * BoardSyncTool.boardWidth + blueRedX] = 4;
+    } else {
+      if (blackCounts >= 2 && whiteCounts >= 2) {
+        float blackMaxOffset =
+            Math.abs(
+                blackMinPercent
+                    - (blackTotalPercent - blackMinPercent) / (float) (blackCounts - 1));
+        float whiteMaxOffset =
+            Math.abs(
+                whiteMinPercent
+                    - (whiteTotalPercent - whiteMinPercent) / (float) (whiteCounts - 1));
+        if (blackMaxOffset >= whiteMaxOffset) {
+          if (blackMinY >= 0 && blackMinX >= 0)
+            resultValue[blackMinY * BoardSyncTool.boardWidth + blackMinX] = 3;
+        } else {
+          if (whiteMinY >= 0 && whiteMinX >= 0)
+            resultValue[whiteMinY * BoardSyncTool.boardWidth + whiteMinX] = 4;
+        }
+      } else if (blackCounts > 0 && whiteCounts > 0) {
+        if (blackCounts < whiteCounts) {
+          if (blackMinY >= 0 && blackMinX >= 0)
+            resultValue[blackMinY * BoardSyncTool.boardWidth + blackMinX] = 3;
+        }
+        if (blackCounts > whiteCounts) {
+          if (whiteMinY >= 0 && whiteMinX >= 0)
+            resultValue[whiteMinY * BoardSyncTool.boardWidth + whiteMinX] = 4;
+        }
       }
     }
-
     for (int i = 0; i < BoardSyncTool.boardHeight; i++) {
       for (int j = 0; j < BoardSyncTool.boardWidth; j++) {
         result += resultValue[i * BoardSyncTool.boardWidth + j] + ",";
@@ -144,33 +179,55 @@ public class BoardOCR {
     Utils.send("end");
   }
 
-  private int getColorPercent(
-      BufferedImage input, int startX, int startY, int width, int height, boolean isBlack) {
-    int sum = 0;
+  private MoveColorInfo getColorPercent(
+      BufferedImage input,
+      int startX,
+      int startY,
+      int width,
+      int height,
+      boolean needCheckRedBlue) {
+    int blackSum = 0;
+    int whiteSum = 0;
+    int redSum = 0;
+    int blueSum = 0;
     if (startX + width > input.getWidth()) startX = input.getWidth() - width;
     if (startY + height > input.getHeight()) startY = input.getHeight() - height;
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         int rgb[] = getRGB(input, startX + x, startY + y);
-        if (Math.abs(rgb[0] - rgb[1]) < BoardSyncTool.config.grayOffset
-            && Math.abs(rgb[0] - rgb[2]) < BoardSyncTool.config.grayOffset
-            && Math.abs(rgb[1] - rgb[2]) < BoardSyncTool.config.grayOffset) {
-          if (isBlack) {
-            if (rgb[0] <= BoardSyncTool.config.blackOffset
-                && rgb[1] <= BoardSyncTool.config.blackOffset
-                && rgb[2] <= BoardSyncTool.config.blackOffset) {
-              sum++;
-            }
-          } else {
-            int value = 255 - BoardSyncTool.config.whiteOffset;
-            if (rgb[0] >= value && rgb[1] >= value && rgb[2] >= value) {
-              sum++;
-            }
+        int red = rgb[0];
+        int blue = rgb[1];
+        int green = rgb[2];
+        if (Math.abs(red - blue) < BoardSyncTool.config.grayOffset
+            && Math.abs(blue - green) < BoardSyncTool.config.grayOffset
+            && Math.abs(green - red) < BoardSyncTool.config.grayOffset) {
+          if (red <= BoardSyncTool.config.blackOffset
+              && blue <= BoardSyncTool.config.blackOffset
+              && green <= BoardSyncTool.config.blackOffset) {
+            blackSum++;
+          }
+          int whiteValue = 255 - BoardSyncTool.config.whiteOffset;
+          if (red >= whiteValue && blue >= whiteValue && green >= whiteValue) {
+            whiteSum++;
+          }
+        }
+        if (needCheckRedBlue) {
+          if (red >= 150 && blue <= 50 && green <= 50) {
+            redSum++;
+          }
+          if (blue >= 150 && red <= 50 && green <= 50) {
+            blue++;
           }
         }
       }
     }
-    return (100 * sum) / (width * height);
+    MoveColorInfo colorInfo = new MoveColorInfo();
+    int total = width * height;
+    colorInfo.blackPercent = (100 * blackSum) / total;
+    colorInfo.whitePercent = (100 * whiteSum) / total;
+    colorInfo.redPercent = (100 * redSum) / total;
+    colorInfo.bluePercent = (100 * blueSum) / total;
+    return colorInfo;
   }
 
   private int[] getRGB(BufferedImage image, int x, int y) {

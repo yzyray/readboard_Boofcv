@@ -28,6 +28,8 @@ public class Config {
   public int lastTimeTotalTime = -1;
   public int lastTimeTotalVisits = -1;
   public int lastTimeFirstVisits = -1;
+  public int bluePercent = 1;
+  public int redPercent = 1;
 
   public Config() throws IOException {
     try {
