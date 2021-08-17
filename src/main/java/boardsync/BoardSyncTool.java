@@ -175,11 +175,11 @@ public class BoardSyncTool {
 
   public static void setLookAndFeel() {
     try {
-      setUIFont(new javax.swing.plaf.FontUIResource("", Font.PLAIN, fontSize));
+      setUIFont(new javax.swing.plaf.FontUIResource("Dialog.plain", Font.PLAIN, fontSize));
       UIManager.put(
-          "OptionPane.buttonFont", new FontUIResource(new Font("", Font.PLAIN, fontSize)));
+          "OptionPane.buttonFont", new FontUIResource("Dialog.plain", Font.PLAIN, fontSize));
       UIManager.put(
-          "OptionPane.messageFont", new FontUIResource(new Font("", Font.PLAIN, fontSize)));
+          "OptionPane.messageFont", new FontUIResource("Dialog.plain", Font.PLAIN, fontSize));
       if (useJavaLooks) {
         String lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
 
