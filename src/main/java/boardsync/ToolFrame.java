@@ -264,6 +264,7 @@ public class ToolFrame extends JFrame {
 
     loadValue();
     initComponents();
+    sendPlayPonder();
     setTitle(BoardSyncTool.resourceBundle.getString("ToolFrame.title"));
     try {
       setIconImage(ImageIO.read(ToolFrame.class.getResourceAsStream("/assets/logo.png")));
@@ -664,5 +665,10 @@ public class ToolFrame extends JFrame {
         }
       }
     }.start();
+  }
+
+  public void sendPlayPonder() {
+    if (BoardSyncTool.config.playPonder) Utils.send("playponder on");
+    else Utils.send("playponder off");
   }
 }

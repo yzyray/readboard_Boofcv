@@ -30,6 +30,7 @@ public class Config {
   public int lastTimeFirstVisits = -1;
   public int bluePercent = 1;
   public int redPercent = 1;
+  public boolean playPonder = true;
 
   public Config() throws IOException {
     try {
@@ -54,6 +55,8 @@ public class Config {
     lastTimeTotalTime = config.optInt("last-time-total-time", -1);
     lastTimeTotalVisits = config.optInt("last-time-total-visits", -1);
     lastTimeFirstVisits = config.optInt("last-time-fitst-visits", -1);
+
+    playPonder = config.optBoolean("play-ponder", true);
   }
 
   public void saveAndWriteConfig() throws IOException {
@@ -80,6 +83,7 @@ public class Config {
     config.put("last-time-total-time", lastTimeTotalTime);
     config.put("last-time-total-visits", lastTimeTotalVisits);
     config.put("last-time-fitst-visits", lastTimeFirstVisits);
+    config.put("play-ponder", playPonder);
     writeConfig(config);
   }
 
@@ -118,6 +122,7 @@ public class Config {
     config.put("last-time-total-time", lastTimeTotalTime);
     config.put("last-time-total-visits", lastTimeTotalVisits);
     config.put("last-time-fitst-visits", lastTimeFirstVisits);
+    config.put("play-ponder", playPonder);
     return config;
   }
 }

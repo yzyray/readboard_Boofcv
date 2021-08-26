@@ -30,6 +30,7 @@ public class SettingsFrame extends JDialog {
   private JTextField txtGrayOffset;
   private JCheckBox chkAutoMin;
   private JCheckBox chkVerifyPlacedMove;
+  private JCheckBox chkPlayPonder;
   private JPanel contentPane = new JPanel();
   private JPanel southPane = new JPanel();
   private JPanel buttonPane = new JPanel();
@@ -165,14 +166,14 @@ public class SettingsFrame extends JDialog {
         new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblAutoMin"));
     GridBagConstraints gbc_lblAutoMin = new GridBagConstraints();
     gbc_lblAutoMin.fill = GridBagConstraints.HORIZONTAL;
-    gbc_lblAutoMin.insets = new Insets(0, 0, 0, 5);
+    gbc_lblAutoMin.insets = new Insets(0, 0, 5, 5);
     gbc_lblAutoMin.gridx = 0;
     gbc_lblAutoMin.gridy = 3;
     contentPane.add(lblAutoMin, gbc_lblAutoMin);
 
     chkAutoMin = new JCheckBox("");
     GridBagConstraints gbc_chkAutoMin = new GridBagConstraints();
-    gbc_chkAutoMin.insets = new Insets(0, 0, 0, 5);
+    gbc_chkAutoMin.insets = new Insets(0, 0, 5, 5);
     gbc_chkAutoMin.gridx = 1;
     gbc_chkAutoMin.gridy = 3;
     contentPane.add(chkAutoMin, gbc_chkAutoMin);
@@ -181,13 +182,14 @@ public class SettingsFrame extends JDialog {
         new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblVerifyPlacedMove"));
     GridBagConstraints gbc_lblVerifyPlacedMove = new GridBagConstraints();
     gbc_lblVerifyPlacedMove.fill = GridBagConstraints.HORIZONTAL;
-    gbc_lblVerifyPlacedMove.insets = new Insets(0, 0, 0, 5);
+    gbc_lblVerifyPlacedMove.insets = new Insets(0, 0, 5, 5);
     gbc_lblVerifyPlacedMove.gridx = 2;
     gbc_lblVerifyPlacedMove.gridy = 3;
     contentPane.add(lblVerifyPlacedMove, gbc_lblVerifyPlacedMove);
 
     chkVerifyPlacedMove = new JCheckBox("");
     GridBagConstraints gbc_chkVerifyPlacedMove = new GridBagConstraints();
+    gbc_chkVerifyPlacedMove.insets = new Insets(0, 0, 5, 0);
     gbc_chkVerifyPlacedMove.gridx = 3;
     gbc_chkVerifyPlacedMove.gridy = 3;
     contentPane.add(chkVerifyPlacedMove, gbc_chkVerifyPlacedMove);
@@ -212,6 +214,7 @@ public class SettingsFrame extends JDialog {
             txtSyncInterval.setText("200");
             chkAutoMin.setSelected(true);
             chkVerifyPlacedMove.setSelected(true);
+            chkPlayPonder.setSelected(true);
           }
         });
     buttonPane.add(btnReset);
@@ -236,12 +239,14 @@ public class SettingsFrame extends JDialog {
                     txtSyncInterval, BoardSyncTool.config.keepSyncIntervalMillseconds);
             BoardSyncTool.config.autoMinimize = chkAutoMin.isSelected();
             BoardSyncTool.config.verifyPlacedMove = chkVerifyPlacedMove.isSelected();
+            BoardSyncTool.config.playPonder = chkPlayPonder.isSelected();
             try {
               BoardSyncTool.config.saveAndWriteConfig();
             } catch (IOException e1) {
               e1.printStackTrace();
             }
             setVisible(false);
+            BoardSyncTool.toolFrame.sendPlayPonder();
           }
         });
     buttonPane.add(btnApply);
@@ -261,6 +266,25 @@ public class SettingsFrame extends JDialog {
     txtWhitePercent.setDocument(new IntDocument());
     txtGrayOffset.setDocument(new IntDocument());
     txtSyncInterval.setDocument(new IntDocument());
+
+    JLabel lblPlayPonder =
+        new JLabel(BoardSyncTool.resourceBundle.getString("SettingsFrame.lblPlayPonder"));
+    lblPlayPonder.setToolTipText(
+        BoardSyncTool.resourceBundle.getString("SettingsFrame.lblPlayPonder.toolTips"));
+    GridBagConstraints gbc_lblPlayPonder = new GridBagConstraints();
+    gbc_lblPlayPonder.insets = new Insets(0, 0, 0, 5);
+    gbc_lblPlayPonder.gridx = 0;
+    gbc_lblPlayPonder.gridy = 4;
+    contentPane.add(lblPlayPonder, gbc_lblPlayPonder);
+
+    chkPlayPonder = new JCheckBox();
+    GridBagConstraints gbc_chkPlayPonder = new GridBagConstraints();
+    gbc_chkPlayPonder.insets = new Insets(0, 0, 0, 5);
+    gbc_chkPlayPonder.gridx = 1;
+    gbc_chkPlayPonder.gridy = 4;
+    chkPlayPonder.setToolTipText(
+        BoardSyncTool.resourceBundle.getString("SettingsFrame.lblPlayPonder.toolTips"));
+    contentPane.add(chkPlayPonder, gbc_chkPlayPonder);
     loadValue();
     pack();
     setLocationRelativeTo(getOwner());
@@ -275,5 +299,6 @@ public class SettingsFrame extends JDialog {
     txtSyncInterval.setText(BoardSyncTool.config.keepSyncIntervalMillseconds + "");
     chkAutoMin.setSelected(BoardSyncTool.config.autoMinimize);
     chkVerifyPlacedMove.setSelected(BoardSyncTool.config.verifyPlacedMove);
+    chkPlayPonder.setSelected(BoardSyncTool.config.playPonder);
   }
 }
