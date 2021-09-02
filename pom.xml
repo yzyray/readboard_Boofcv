@@ -5,7 +5,7 @@
  <modelVersion>4.0.0</modelVersion>
   <groupId>yzy</groupId>
   <artifactId>readboard</artifactId>
-  <version>1.4</version>
+  <version>1.5</version>
 
 	<properties>
 		<!-- Prevent warning: "[WARNING] Using platform encoding (UTF-8 actually) 
@@ -119,7 +119,7 @@
 		<dependency>
     		<groupId>org.boofcv</groupId>
    			 <artifactId>boofcv-core</artifactId>
-   			 <version>0.37</version>
+   			 <version>0.38</version>
 		</dependency> 
 		<!--	<dependency>
     		<groupId>org.boofcv</groupId>
