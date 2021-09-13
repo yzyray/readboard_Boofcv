@@ -283,14 +283,14 @@ public class ToolFrame extends JFrame {
   }
 
   private void loadValue() {
-    this.txtBoardWidth.setText(BoardSyncTool.boardWidth + "");
-    this.txtBoardHeight.setText(BoardSyncTool.boardHeight + "");
+    this.txtBoardWidth.setText(String.valueOf(BoardSyncTool.boardWidth));
+    this.txtBoardHeight.setText(String.valueOf(BoardSyncTool.boardHeight));
     if (BoardSyncTool.config.lastTimeTotalTime > 0)
-      this.txtTotalTime.setText(BoardSyncTool.config.lastTimeTotalTime + "");
+      this.txtTotalTime.setText(String.valueOf(BoardSyncTool.config.lastTimeTotalTime));
     if (BoardSyncTool.config.lastTimeTotalVisits > 0)
-      this.txtTotalVisits.setText(BoardSyncTool.config.lastTimeTotalVisits + "");
+      this.txtTotalVisits.setText(String.valueOf(BoardSyncTool.config.lastTimeTotalVisits));
     if (BoardSyncTool.config.lastTimeFirstVisits > 0)
-      this.txtFirstVisits.setText(BoardSyncTool.config.lastTimeFirstVisits + "");
+      this.txtFirstVisits.setText(String.valueOf(BoardSyncTool.config.lastTimeFirstVisits));
   }
 
   private void updateBoardHeight() {

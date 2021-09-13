@@ -291,12 +291,12 @@ public class SettingsFrame extends JDialog {
   }
 
   private void loadValue() {
-    txtBlackOffset.setText(BoardSyncTool.config.blackOffset + "");
-    txtBlackPercent.setText(BoardSyncTool.config.blackPercent + "");
-    txtWhiteOffset.setText(BoardSyncTool.config.whiteOffset + "");
-    txtWhitePercent.setText(BoardSyncTool.config.whitePercent + "");
-    txtGrayOffset.setText(BoardSyncTool.config.grayOffset + "");
-    txtSyncInterval.setText(BoardSyncTool.config.keepSyncIntervalMillseconds + "");
+    txtBlackOffset.setText(String.valueOf(BoardSyncTool.config.blackOffset));
+    txtBlackPercent.setText(String.valueOf(BoardSyncTool.config.blackPercent));
+    txtWhiteOffset.setText(String.valueOf(BoardSyncTool.config.whiteOffset));
+    txtWhitePercent.setText(String.valueOf(BoardSyncTool.config.whitePercent));
+    txtGrayOffset.setText(String.valueOf(BoardSyncTool.config.grayOffset));
+    txtSyncInterval.setText(String.valueOf(BoardSyncTool.config.keepSyncIntervalMillseconds));
     chkAutoMin.setSelected(BoardSyncTool.config.autoMinimize);
     chkVerifyPlacedMove.setSelected(BoardSyncTool.config.verifyPlacedMove);
     chkPlayPonder.setSelected(BoardSyncTool.config.playPonder);
