@@ -272,6 +272,7 @@ public class SettingsFrame extends JDialog {
     lblPlayPonder.setToolTipText(
         BoardSyncTool.resourceBundle.getString("SettingsFrame.lblPlayPonder.toolTips"));
     GridBagConstraints gbc_lblPlayPonder = new GridBagConstraints();
+    gbc_lblPlayPonder.fill = GridBagConstraints.HORIZONTAL;
     gbc_lblPlayPonder.insets = new Insets(0, 0, 0, 5);
     gbc_lblPlayPonder.gridx = 0;
     gbc_lblPlayPonder.gridy = 4;
