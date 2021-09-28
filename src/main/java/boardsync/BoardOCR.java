@@ -214,7 +214,7 @@ public class BoardOCR {
             redSum++;
           }
           if (blue >= 150 && red <= 50 && green <= 50) {
-            blue++;
+            blueSum++;
           }
         }
       }
