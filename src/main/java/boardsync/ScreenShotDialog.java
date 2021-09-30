@@ -149,6 +149,10 @@ public class ScreenShotDialog extends JDialog {
       Robot robot;
       try {
         robot = new Robot();
+        startX = startX - capWidth / BoardSyncTool.boardWidth;
+        startY = startY - capWidth / BoardSyncTool.boardHeight;
+        capWidth = capWidth + 2 * capWidth / BoardSyncTool.boardWidth;
+        capHeight = capHeight + 2 * capWidth / BoardSyncTool.boardHeight;
         imageOut = robot.createScreenCapture(new Rectangle(startX, startY, capWidth, capHeight));
       } catch (AWTException e) {
         // TODO Auto-generated catch block
