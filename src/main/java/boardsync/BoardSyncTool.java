@@ -19,7 +19,7 @@ import javax.swing.plaf.FontUIResource;
 
 public class BoardSyncTool {
   public static ResourceBundle resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings");
-  public static boolean isChinese = true;
+  public static Language language = Language.Chinese;
   private static boolean useJavaLooks = false;
   private static int fontSize = 12;
 
@@ -39,8 +39,10 @@ public class BoardSyncTool {
   public static void main(String[] args) {
     // 共传入5个参数,是否中文 是否java外观 字体大小 宽 高
     if (args.length == 5) {
-      if (args[0].equals("true")) isChinese = true;
-      else isChinese = false;
+      if (args[0].equals("cn")) language = Language.Chinese;
+      else if (args[0].equals("en")) language = Language.English;
+      else if (args[0].equals("jp")) language = Language.Japanese;
+      else if (args[0].equals("kr")) language = Language.korean;
       if (args[1].equals("true")) useJavaLooks = true;
       else useJavaLooks = false;
       try {
@@ -59,9 +61,20 @@ public class BoardSyncTool {
         e.printStackTrace();
       }
     }
-    if (isChinese)
-      resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings", new Locale("zh", "CN"));
-    else resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings", new Locale("en", "US"));
+    switch (language) {
+      case Chinese:
+        resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings", new Locale("zh", "CN"));
+        break;
+      case English:
+        resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings", new Locale("en", "US"));
+        break;
+      case Japanese:
+        resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings", new Locale("ja", "JP"));
+        break;
+      case korean:
+        resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings", new Locale("ko"));
+        break;
+    }
     setLookAndFeel();
     try {
       config = new Config();
@@ -204,5 +217,12 @@ public class BoardSyncTool {
       e1.printStackTrace();
     }
     System.exit(0);
+  }
+
+  public enum Language {
+    Chinese,
+    English,
+    Japanese,
+    korean
   }
 }

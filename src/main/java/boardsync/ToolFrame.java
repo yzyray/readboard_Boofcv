@@ -393,7 +393,7 @@ public class ToolFrame extends JFrame {
                       new File(
                           "readboard_java"
                               + File.separator
-                              + (BoardSyncTool.isChinese ? "help.docx" : "help_en.docx")));
+                              + BoardSyncTool.resourceBundle.getString("Help.helpFileName")));
             } catch (IOException e) {
               e.printStackTrace();
             }
