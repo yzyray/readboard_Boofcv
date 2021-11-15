@@ -42,7 +42,7 @@ public class BoardSyncTool {
       if (args[0].equals("cn")) language = Language.Chinese;
       else if (args[0].equals("en")) language = Language.English;
       else if (args[0].equals("jp")) language = Language.Japanese;
-      else if (args[0].equals("kr")) language = Language.korean;
+      else if (args[0].equals("kr")) language = Language.Korean;
       if (args[1].equals("true")) useJavaLooks = true;
       else useJavaLooks = false;
       try {
@@ -71,7 +71,7 @@ public class BoardSyncTool {
       case Japanese:
         resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings", new Locale("ja", "JP"));
         break;
-      case korean:
+      case Korean:
         resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings", new Locale("ko"));
         break;
     }
@@ -223,6 +223,6 @@ public class BoardSyncTool {
     Chinese,
     English,
     Japanese,
-    korean
+    Korean
   }
 }
