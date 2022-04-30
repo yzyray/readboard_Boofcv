@@ -89,16 +89,9 @@ public class BoardOCR {
           }
         } else {
           if (colorInfo.whitePercent >= BoardSyncTool.config.whitePercent) {
-            if (x == 0
-                || x == BoardSyncTool.boardWidth - 1
-                || y == 0
-                || y == BoardSyncTool.boardHeight - 1) {
-              if (colorInfo.whitePercent > 85) isWhite = false;
-              else isWhite = true;
-            } else {
-              if (colorInfo.whitePercent > 80) isWhite = false;
-              else isWhite = true;
-            }
+            if (!colorInfo.trueWhite
+                && colorInfo.almostWhitePercent - colorInfo.pureWhitePercent < 10) isWhite = false;
+            else isWhite = true;
           }
           if (isWhite) {
             resultValue[y * BoardSyncTool.boardWidth + x] = 2;
@@ -188,6 +181,9 @@ public class BoardOCR {
     int whiteSum = 0;
     int redSum = 0;
     int blueSum = 0;
+    int pureWhiteSum = 0;
+    int almostWhiteSum = 0;
+    boolean trueWhite = false;
     if (startX + width > input.getWidth()) startX = input.getWidth() - width;
     if (startY + height > input.getHeight()) startY = input.getHeight() - height;
     for (int y = 0; y < height; y++) {
@@ -208,6 +204,14 @@ public class BoardOCR {
           if (red >= whiteValue && blue >= whiteValue && green >= whiteValue) {
             whiteSum++;
           }
+          int pureWhiteValue = 255 - 30;
+          if (red >= pureWhiteValue && blue >= pureWhiteValue && green >= pureWhiteValue) {
+            pureWhiteSum++;
+          }
+          int almostWhiteValue = 255 - 65;
+          if (red >= almostWhiteValue && blue >= almostWhiteValue && green >= almostWhiteValue) {
+            almostWhiteSum++;
+          }
         }
         if (needCheckRedBlue) {
           if (red >= 150 && blue <= 50 && green <= 50) {
@@ -225,6 +229,23 @@ public class BoardOCR {
     colorInfo.whitePercent = (100 * whiteSum) / total;
     colorInfo.redPercent = (100 * redSum) / total;
     colorInfo.bluePercent = (100 * blueSum) / total;
+    colorInfo.pureWhitePercent = (100 * pureWhiteSum) / total;
+    colorInfo.almostWhitePercent = (100 * almostWhiteSum) / total;
+    if (colorInfo.whitePercent >= BoardSyncTool.config.whitePercent) {
+      int y = (int) Math.round(height / 4.0);
+      int pureWhiteValue = 255 - 30;
+      for (int x = 0; x < (int) Math.round(width * 2.0 / 6.0); x++) {
+        int rgb[] = getRGB(input, startX + x, startY + y);
+        int red = rgb[0];
+        int blue = rgb[1];
+        int green = rgb[2];
+        if (red < pureWhiteValue || blue < pureWhiteValue || green < pureWhiteValue) {
+          trueWhite = true;
+          break;
+        }
+      }
+    }
+    colorInfo.trueWhite = trueWhite;
     return colorInfo;
   }
 

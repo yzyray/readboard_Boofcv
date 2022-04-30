@@ -19,7 +19,7 @@ import javax.swing.plaf.FontUIResource;
 
 public class BoardSyncTool {
   public static ResourceBundle resourceBundle = ResourceBundle.getBundle("l10n.DisplayStrings");
-  public static Language language = Language.Japanese;
+  public static Language language = Language.Chinese;
   private static boolean useJavaLooks = false;
   private static int fontSize = 12;
 

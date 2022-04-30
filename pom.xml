@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
- <modelVersion>4.0.0</modelVersion>
-  <groupId>yzy</groupId>
-  <artifactId>readboard</artifactId>
-  <version>1.5.8</version>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>yzy</groupId>
+	<artifactId>readboard</artifactId>
+	<version>1.5.9</version>
 
 	<properties>
 		<!-- Prevent warning: "[WARNING] Using platform encoding (UTF-8 actually) 
@@ -23,7 +23,7 @@
 					<source>1.8</source>
 					<target>1.8</target>
 					<compilerArgs>
-						<arg>-Xlint:all</arg>					
+						<arg>-Xlint:all</arg>
 					</compilerArgs>
 				</configuration>
 			</plugin>
@@ -78,11 +78,12 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -114,19 +115,16 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<dependencies>	
-<!-- https://mvnrepository.com/artifact/org.boofcv/boofcv-all -->
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.boofcv/boofcv-all -->
 		<dependency>
-    		<groupId>org.boofcv</groupId>
-   			 <artifactId>boofcv-core</artifactId>
-   			 <version>0.38</version>
-		</dependency> 
-		<!--	<dependency>
-    		<groupId>org.boofcv</groupId>
-   			 <artifactId>boofcv-swing</artifactId>
-   			 <version>0.37</version>
-		</dependency>  -->
-				<dependency>
+			<groupId>org.boofcv</groupId>
+			<artifactId>boofcv-core</artifactId>
+			<version>0.38</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.boofcv</groupId> <artifactId>boofcv-swing</artifactId> 
+			<version>0.37</version> </dependency> -->
+		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
 			<version>20180130</version>
