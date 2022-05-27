@@ -15,17 +15,9 @@ public class BoardOCR {
     MoveColorInfo colorInfo = getColorPercent(input, x, y, width, height, false);
     if (colorInfo.blackPercent >= BoardSyncTool.config.blackPercent) return true;
     if (colorInfo.whitePercent >= BoardSyncTool.config.whitePercent) {
-      if (moveX == 0
-          || moveX == BoardSyncTool.boardWidth - 1
-          || moveY == 0
-          || moveY == BoardSyncTool.boardHeight - 1) {
-        if (colorInfo.whitePercent > 85) hasStone = false;
-        else hasStone = true;
-      } else {
-        if (colorInfo.whitePercent > 80) hasStone = false;
-        else hasStone = true;
-      }
-      hasStone = true;
+      if (!colorInfo.trueWhite && colorInfo.almostWhitePercent - colorInfo.pureWhitePercent < 10)
+        hasStone = false;
+      else hasStone = true;
     }
     return hasStone;
   }
